@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -137,12 +136,30 @@ fun AddReview() {
                 .fillMaxWidth(),
             columns = GridCells.Adaptive(minSize = 80.dp), content = {
                 items(1000) { it ->
-                    Image(
-                        modifier = Modifier.height(80.dp),
-                        painter = painterResource(id = testImage[it % testImage.size]),
-                        contentDescription = "",
-                        contentScale = ContentScale.Crop
-                    )
+                    Box {
+                        Image(
+                            modifier = Modifier.height(80.dp),
+                            painter = painterResource(id = testImage[it % testImage.size]),
+                            contentDescription = "",
+                            contentScale = ContentScale.Crop
+                        )
+                        Row(
+                            horizontalArrangement = Arrangement.End,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 3.dp, end = 3.dp)
+                        ) {
+                            Box(
+                                Modifier
+                                    .clip(CircleShape)
+                                    .background(Color(0xFF6666FF))
+                                    .size(20.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(text = "1", color = Color.White)
+                            }
+                        }
+                    }
                 }
             })
     }
