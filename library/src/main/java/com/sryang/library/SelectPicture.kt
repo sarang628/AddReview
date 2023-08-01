@@ -1,7 +1,9 @@
 package com.sryang.library
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,13 +26,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Preview
 @Composable
 fun AddReview() {
-
     //val testImage = [R.drawable.a, R.drawable.b]
 
 
@@ -50,7 +52,7 @@ fun AddReview() {
             }
             Text(
                 text = "다음",
-                color = Color(0xFF7777FF),
+                color = Color(0xFF4396F7),
                 fontWeight = FontWeight.Bold
             )
         }
@@ -71,11 +73,11 @@ fun AddReview() {
                 .padding(start = 8.dp, end = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(modifier = Modifier.weight(1f), text = "최근항목 >", fontWeight = FontWeight.Bold)
+            Text(modifier = Modifier.weight(1f), text = "최근항목  >", fontWeight = FontWeight.Bold)
             Box(
                 Modifier
                     .clip(CircleShape)
-                    .background(Color.Gray)
+                    .background(Color(0xFF606163))
                     .padding(6.dp)
                     .size(23.dp)
             ) {
@@ -90,7 +92,7 @@ fun AddReview() {
             Box(
                 Modifier
                     .clip(CircleShape)
-                    .background(Color.Gray)
+                    .background(Color(0xFF606163))
                     .padding(6.dp)
                     .size(23.dp)
             )
@@ -134,11 +136,11 @@ fun AddReview() {
         LazyVerticalGrid(
             modifier = Modifier
                 .fillMaxWidth(),
-            columns = GridCells.Adaptive(minSize = 80.dp), content = {
+            columns = GridCells.Adaptive(minSize = 90.dp), content = {
                 items(1000) { it ->
                     Box {
                         Image(
-                            modifier = Modifier.height(80.dp),
+                            modifier = Modifier.height(90.dp),
                             painter = painterResource(id = testImage[it % testImage.size]),
                             contentDescription = "",
                             contentScale = ContentScale.Crop
@@ -150,14 +152,22 @@ fun AddReview() {
                                 .padding(top = 3.dp, end = 3.dp)
                         ) {
                             Box(
-                                Modifier
+                                modifier = Modifier
                                     .clip(CircleShape)
-                                    .background(Color(0xFF6666FF))
-                                    .size(20.dp),
-                                contentAlignment = Alignment.Center
+                                    .background(Color(0xFFFFFFFF))
+                                    .size(24.dp), contentAlignment = Alignment.Center
                             ) {
-                                Text(text = "1", color = Color.White)
+                                Box(
+                                    Modifier
+                                        .clip(CircleShape)
+                                        .background(Color(0xFF4396F7))
+                                        .size(22.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(text = "1", color = Color.White)
+                                }
                             }
+
                         }
                     }
                 }
