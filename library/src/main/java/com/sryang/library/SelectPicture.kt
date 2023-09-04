@@ -6,6 +6,6 @@ import com.sarang.instagralleryModule.GalleryScreen
 
 @Preview
 @Composable
-fun AddReview() {
-    GalleryScreen()
+fun AddReview(color: Long = 0xFF0000) {
+    GalleryScreen(color = color)
 }
