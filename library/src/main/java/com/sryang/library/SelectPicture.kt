@@ -7,5 +7,5 @@ import com.sarang.instagralleryModule.GalleryScreen
 @Preview
 @Composable
 fun AddReview(color: Long = 0xFF0000) {
-    GalleryScreen(color = color)
+    GalleryScreen(color = color, onClose = {}, onNext = {})
 }
