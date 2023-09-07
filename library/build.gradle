@@ -65,4 +65,9 @@ dependencies {
     /** local */
     implementation "com.github.sarang628:Theme:$themeVersion"
     implementation "com.github.sarang628:InstagramGallery:$instaGramGalleryVersion"
+
+    def nav_version = "2.5.3"
+
+    implementation "androidx.navigation:navigation-compose:$nav_version"
+    implementation("io.coil-kt:coil-compose:2.4.0")
 }
