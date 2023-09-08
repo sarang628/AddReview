@@ -15,7 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.sarang.instagralleryModule.GalleryScreen
 
 @Composable
-fun SelectPictureAndAddReview(onShare: (Void?) -> Unit, color: Long = 0xFF0000) {
+fun SelectPictureAndAddReview(onShare: (AddReviewData) -> Unit, color: Long = 0xFF0000) {
     val context = LocalContext.current
     val navController = rememberNavController()
     val list = remember { mutableStateListOf<String>() }
@@ -34,9 +34,7 @@ fun SelectPictureAndAddReview(onShare: (Void?) -> Unit, color: Long = 0xFF0000) 
         }
 
         composable("addReview") {
-            AddReviewScreen(list, onShare = {
-
-            }, onBack = { navController.popBackStack() })
+            AddReviewScreen(list, onShare = onShare, onBack = { navController.popBackStack() })
         }
     }
 }
