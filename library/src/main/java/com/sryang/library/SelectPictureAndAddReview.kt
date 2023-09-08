@@ -1,7 +1,6 @@
 package com.sryang.library
 
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -36,7 +35,7 @@ fun SelectPictureAndAddReview(onShare: (Void?) -> Unit, color: Long = 0xFF0000) 
 
         composable("addReview") {
             AddReviewScreen(list, onShare = {
-                Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
+
             }, onBack = { navController.popBackStack() })
         }
     }
