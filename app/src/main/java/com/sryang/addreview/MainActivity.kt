@@ -3,6 +3,7 @@ package com.sryang.addreview
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.ui.graphics.Color
 import com.sryang.library.SelectPictureAndAddReview
 
 class MainActivity : ComponentActivity() {
@@ -11,7 +12,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             SelectPictureAndAddReview(onShare = {
 
-            })
+            }, color = 0xFF000000)
         }
     }
 }
