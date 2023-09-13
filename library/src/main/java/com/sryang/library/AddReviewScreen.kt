@@ -1,5 +1,6 @@
 package com.sryang.library
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -42,6 +43,9 @@ fun AddReviewScreen(
     onShare: (AddReviewData) -> Unit,
     onBack: (Void?) -> Unit
 ) {
+    /*Log.d("AddReviewScreen",
+        list[0].toString()
+    )*/
     var input by remember { mutableStateOf("") }
     Column(
         Modifier

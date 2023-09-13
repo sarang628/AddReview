@@ -22,7 +22,8 @@ ext {
     torangImageLoaderVersion = 'f4a2359698'
     themeVersion = '7c191eb4e6'
     navigationModuleVersion = 'd98f57435d'
-    repositoryVersion = 'b9731af80c'
+    repositoryVersion = '9966840671'
     baseFeedVersion = 'aa5b46f3e0'
     instaGramGalleryVersion = 'd7f9c03b5c'
+    room_version = "2.5.1"
 }
