@@ -70,4 +70,5 @@ dependencies {
 
     implementation "androidx.navigation:navigation-compose:$nav_version"
     implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation 'id.zelory:compressor:3.0.1'
 }

@@ -1,5 +1,6 @@
 package com.sryang.library
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,6 +38,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import id.zelory.compressor.Compressor
+import kotlinx.coroutines.launch
+import java.io.File
 
 @Composable
 fun AddReviewScreen(
@@ -46,7 +51,9 @@ fun AddReviewScreen(
     /*Log.d("AddReviewScreen",
         list[0].toString()
     )*/
+    val coroutine = rememberCoroutineScope()
     var input by remember { mutableStateOf("") }
+    val context = LocalContext.current
     Column(
         Modifier
             //.background(Color.DarkGray)
@@ -54,9 +61,12 @@ fun AddReviewScreen(
     ) {
         // titlebar
         TitleBar(onShare = {
-            onShare.invoke(
-                AddReviewData(pictures = list, contents = input)
-            )
+            coroutine.launch {
+                val compressedImage = compress(context = context, file = list)
+                onShare.invoke(
+                    AddReviewData(pictures = compressedImage, contents = input)
+                )
+            }
         }, onBack = onBack)
         // selected picture
         SelectedPicture(list = list)
@@ -182,4 +192,14 @@ fun WriteCaption(input: String, onValueChange: (String) -> Unit) {
             unfocusedBorderColor = Color.Transparent
         )
     )
+}
+
+suspend fun compress(file: List<String>, context: Context): ArrayList<String> {
+    val list = ArrayList<String>()
+    file.forEach() {
+        list.add(
+            Compressor.compress(context = context, imageFile = File(it)).path
+        )
+    }
+    return list
 }
