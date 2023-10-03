@@ -64,8 +64,6 @@ dependencies {
 
     /** local */
     implementation "com.github.sarang628:Theme:$themeVersion"
-    implementation "com.github.sarang628:InstagramGallery:$instaGramGalleryVersion"
-
     implementation "com.github.sarang628:ComposePermissionTest:$composePermissionTestVersion"
 
     def nav_version = "2.5.3"

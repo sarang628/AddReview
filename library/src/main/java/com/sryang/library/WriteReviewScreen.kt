@@ -42,7 +42,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 @Composable
-fun AddReviewScreen(
+fun AddReview(
     list: List<String>,
     onShare: (AddReviewData) -> Unit,
     onBack: (Void?) -> Unit
