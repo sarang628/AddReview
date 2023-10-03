@@ -78,7 +78,7 @@ fun AddReview(
                 .background(Color.LightGray)
         )
         // select restaurant
-        SelectRestaurant(onRestaurant = onRestaurant)
+        SelectRestaurantLabel(onRestaurant = onRestaurant)
         Spacer(modifier = Modifier.height(5.dp))
         Text(
             text = "",
@@ -158,7 +158,7 @@ fun SelectedPicture(list: List<String>) {
 }
 
 @Composable
-fun SelectRestaurant(onRestaurant: () -> Unit) {
+fun SelectRestaurantLabel(onRestaurant: () -> Unit) {
     Row(
         Modifier
             .height(50.dp)

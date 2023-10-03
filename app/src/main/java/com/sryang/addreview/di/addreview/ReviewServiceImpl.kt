@@ -1,7 +1,7 @@
 package com.sryang.addreview.di.addreview
 
 import com.sryang.library.ReviewService
-import com.sryang.torang_repository.services.RemoteReviewService
+import com.sryang.torang_repository.api.ApiReview
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,7 +15,7 @@ import javax.inject.Inject
 class ReviewServiceImpl {
 
     @Inject
-    lateinit var remoteReviewService: RemoteReviewService
+    lateinit var remoteReviewService: ApiReview
     @Provides
     fun provideReviewService(): ReviewService {
         return object : ReviewService {

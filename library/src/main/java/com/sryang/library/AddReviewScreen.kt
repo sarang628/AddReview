@@ -11,7 +11,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -19,6 +18,9 @@ import androidx.navigation.compose.composable
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
+import com.sryang.library.selectrestaurant.SelectRestaurant
+import com.sryang.library.selectrestaurant.SelectRestaurantData
+import com.sryang.library.selectrestaurant.SelectRestaurantViewModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
@@ -28,9 +30,11 @@ import kotlin.streams.toList
 @Composable
 fun AddReviewScreen(
     addReviewViewModel: AddReviewViewModel,
+    selectRestaurantViewModel: SelectRestaurantViewModel,
     color: Color = Color(0xFFFFFBE6),
     galleryScreen: @Composable () -> Unit,
-    navController: NavHostController
+    navController: NavHostController,
+    onRestaurant: (SelectRestaurantData) -> Unit
 ) {
     val uiState: AddReviewUiState by addReviewViewModel.uiState.collectAsState()
     val request = rememberPermissionState(
@@ -70,7 +74,12 @@ fun AddReviewScreen(
 
             }
             composable("selectRestaurant") {
-                SelectRestaurant()
+                SelectRestaurant(
+                    viewModel = selectRestaurantViewModel,
+                    onRestaurant = onRestaurant,
+                    onClose = { navController.popBackStack() },
+                    onRefresh = {}
+                )
             }
         }
 
