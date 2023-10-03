@@ -56,4 +56,15 @@ class AddReviewViewModel @Inject constructor(
         }
     }
 
+    fun inputText(it: String) {
+        viewModelScope.launch {
+            _uiState.emit(
+                uiState.value.copy(
+                    contents = it
+                )
+            )
+        }
+    }
+
+
 }

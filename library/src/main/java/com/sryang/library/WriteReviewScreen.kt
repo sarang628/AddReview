@@ -45,13 +45,13 @@ import java.io.File
 fun AddReview(
     list: List<String>,
     onShare: (AddReviewData) -> Unit,
-    onBack: (Void?) -> Unit
+    onBack: (Void?) -> Unit,
+    onRestaurant: () -> Unit,
+    isShareAble: Boolean,
+    content: String,
+    onTextChange: (String) -> Unit
 ) {
-    /*Log.d("AddReviewScreen",
-        list[0].toString()
-    )*/
     val coroutine = rememberCoroutineScope()
-    var input by remember { mutableStateOf("") }
     val context = LocalContext.current
     Column(
         Modifier
@@ -63,10 +63,10 @@ fun AddReview(
             coroutine.launch {
                 val compressedImage = compress(context = context, file = list)
                 onShare.invoke(
-                    AddReviewData(pictures = compressedImage, contents = input)
+                    AddReviewData(pictures = compressedImage, contents = content)
                 )
             }
-        }, onBack = onBack)
+        }, onBack = onBack, isShareAble = isShareAble)
         // selected picture
         SelectedPicture(list = list)
         Spacer(modifier = Modifier.height(5.dp))
@@ -78,7 +78,7 @@ fun AddReview(
                 .background(Color.LightGray)
         )
         // select restaurant
-        SelectRestaurant()
+        SelectRestaurant(onRestaurant = onRestaurant)
         Spacer(modifier = Modifier.height(5.dp))
         Text(
             text = "",
@@ -88,9 +88,7 @@ fun AddReview(
                 .background(Color.LightGray)
         )
         // Write a caption
-        WriteCaption(input = input, onValueChange = {
-            input = it
-        })
+        WriteCaption(input = content, onValueChange = onTextChange)
         Spacer(modifier = Modifier.height(5.dp))
         Text(
             text = "",
@@ -105,7 +103,8 @@ fun AddReview(
 @Composable
 fun TitleBar(
     onBack: (Void?) -> Unit,
-    onShare: (Void?) -> Unit
+    onShare: (Void?) -> Unit,
+    isShareAble: Boolean
 ) {
     Row(
         modifier = Modifier
@@ -128,8 +127,8 @@ fun TitleBar(
         Text(text = "New post", fontWeight = FontWeight.Bold, fontSize = 18.sp)
         Row(Modifier.fillMaxWidth(), Arrangement.End) {
             Text(text = "share",
-                color = Color(0xFF4193EF),
-                modifier = Modifier.clickable {
+                color = Color(if (isShareAble) 0xFF4193EF else 0xFFAEAEAE),
+                modifier = Modifier.clickable(isShareAble) {
                     onShare.invoke(null)
                 }
             )
@@ -158,13 +157,13 @@ fun SelectedPicture(list: List<String>) {
     }
 }
 
-@Preview
 @Composable
-fun SelectRestaurant() {
+fun SelectRestaurant(onRestaurant: () -> Unit) {
     Row(
         Modifier
             .height(50.dp)
-            .padding(start = 18.dp),
+            .padding(start = 18.dp)
+            .clickable { onRestaurant.invoke() },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(text = "Add restaurant")

@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.navigation.compose.rememberNavController
-import com.sarang.instagralleryModule.GalleryScreen
+import com.sarang.instagralleryModule.gallery.GalleryScreen
 import com.sryang.library.AddReviewScreen
 import com.sryang.library.AddReviewViewModel
 import com.sryang.library.ReviewService

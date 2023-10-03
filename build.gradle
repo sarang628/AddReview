@@ -24,7 +24,7 @@ ext {
     navigationModuleVersion = 'd98f57435d'
     repositoryVersion = '9966840671'
     baseFeedVersion = 'aa5b46f3e0'
-    instaGramGalleryVersion = 'd7f9c03b5c'
+    instaGramGalleryVersion = '6a985cc9f7'
     room_version = "2.5.1"
     composePermissionTestVersion = "cf88d20371"
 }

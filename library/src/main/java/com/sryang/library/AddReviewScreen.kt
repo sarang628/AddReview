@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -52,7 +53,12 @@ fun AddReviewScreen(
                     AddReview(
                         list = it,
                         onShare = { addReviewViewModel.onShare(it) },
-                        onBack = { navController.popBackStack() })
+                        onBack = { navController.popBackStack() },
+                        onRestaurant = { navController.navigate("selectRestaurant") },
+                        isShareAble = uiState.isShareAble,
+                        onTextChange = { addReviewViewModel.inputText(it) },
+                        content = uiState.contents
+                    )
                 }
             }
 
@@ -62,6 +68,9 @@ fun AddReviewScreen(
 
             composable("permissionDenied") {
 
+            }
+            composable("selectRestaurant") {
+                SelectRestaurant()
             }
         }
 
