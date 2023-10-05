@@ -43,8 +43,8 @@ import java.io.File
 
 @Composable
 fun AddReview(
-    list: List<String>,
-    onShare: (AddReviewData) -> Unit,
+    uiState: AddReviewUiState,
+    onShare: () -> Unit,
     onBack: (Void?) -> Unit,
     onRestaurant: () -> Unit,
     isShareAble: Boolean,
@@ -55,20 +55,16 @@ fun AddReview(
     val context = LocalContext.current
     Column(
         Modifier
-            //.background(Color.DarkGray)
             .fillMaxHeight()
     ) {
         // titlebar
         TitleBar(onShare = {
             coroutine.launch {
-                val compressedImage = compress(context = context, file = list)
-                onShare.invoke(
-                    AddReviewData(pictures = compressedImage, contents = content)
-                )
+                onShare.invoke()
             }
         }, onBack = onBack, isShareAble = isShareAble)
         // selected picture
-        SelectedPicture(list = list)
+        uiState.list?.let { SelectedPicture(list = it) }
         Spacer(modifier = Modifier.height(5.dp))
         Text(
             text = "",
@@ -78,7 +74,10 @@ fun AddReview(
                 .background(Color.LightGray)
         )
         // select restaurant
-        SelectRestaurantLabel(onRestaurant = onRestaurant)
+        SelectRestaurantLabel(
+            uiState.selectedRestaurant?.restaurantName,
+            onRestaurant = onRestaurant
+        )
         Spacer(modifier = Modifier.height(5.dp))
         Text(
             text = "",
@@ -158,7 +157,7 @@ fun SelectedPicture(list: List<String>) {
 }
 
 @Composable
-fun SelectRestaurantLabel(onRestaurant: () -> Unit) {
+fun SelectRestaurantLabel(selectedRestaurantName: String?, onRestaurant: () -> Unit) {
     Row(
         Modifier
             .height(50.dp)
@@ -166,7 +165,7 @@ fun SelectRestaurantLabel(onRestaurant: () -> Unit) {
             .clickable { onRestaurant.invoke() },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = "Add restaurant")
+        Text(text = selectedRestaurantName ?: "Add restaurant")
     }
 }
 
@@ -190,14 +189,4 @@ fun WriteCaption(input: String, onValueChange: (String) -> Unit) {
             unfocusedBorderColor = Color.Transparent
         )
     )
-}
-
-suspend fun compress(file: List<String>, context: Context): ArrayList<String> {
-    val list = ArrayList<String>()
-    file.forEach() {
-        list.add(
-            Compressor.compress(context = context, imageFile = File(it)).path
-        )
-    }
-    return list
 }

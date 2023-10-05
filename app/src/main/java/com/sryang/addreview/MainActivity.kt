@@ -37,7 +37,10 @@ class MainActivity : ComponentActivity() {
                         navController.navigate("addReview")
                     }, onClose = {})
                 },
-                onRestaurant = {}
+                onRestaurant = {
+                    addReviewViewModel.selectRestaurant(it)
+                    navController.popBackStack()
+                }
             )
         }
     }

@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -37,6 +38,7 @@ fun AddReviewScreen(
     onRestaurant: (SelectRestaurantData) -> Unit
 ) {
     val uiState: AddReviewUiState by addReviewViewModel.uiState.collectAsState()
+    val context = LocalContext.current
     val request = rememberPermissionState(
         permission = Manifest.permission.READ_EXTERNAL_STORAGE,
         onPermissionResult = { navController.go("gallery") })
@@ -53,17 +55,15 @@ fun AddReviewScreen(
             }
 
             composable("addReview") {
-                uiState.list?.let {
-                    AddReview(
-                        list = it,
-                        onShare = { addReviewViewModel.onShare(it) },
-                        onBack = { navController.popBackStack() },
-                        onRestaurant = { navController.navigate("selectRestaurant") },
-                        isShareAble = uiState.isShareAble,
-                        onTextChange = { addReviewViewModel.inputText(it) },
-                        content = uiState.contents
-                    )
-                }
+                AddReview(
+                    uiState = uiState,
+                    onShare = { addReviewViewModel.onShare(context = context) },
+                    onBack = { navController.popBackStack() },
+                    onRestaurant = { navController.navigate("selectRestaurant") },
+                    isShareAble = uiState.isShareAble,
+                    onTextChange = { addReviewViewModel.inputText(it) },
+                    content = uiState.contents
+                )
             }
 
             composable("askPermission") {
