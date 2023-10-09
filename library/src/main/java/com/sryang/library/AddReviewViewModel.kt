@@ -25,7 +25,7 @@ class AddReviewViewModel @Inject constructor(
 
     val uiState = _uiState.asStateFlow()
 
-    fun onShare(context: Context) {
+    fun onShare(context: Context, onShared: () -> Unit) {
         viewModelScope.launch {
             try {
                 _uiState.emit(uiState.value.copy(isProgress = true))
@@ -54,11 +54,13 @@ class AddReviewViewModel @Inject constructor(
                     ) else ArrayList()
                 )
                 _uiState.emit(uiState.value.copy(isProgress = false))
+                onShared.invoke()
             } catch (e: Exception) {
                 Log.d("AddReviewViewModel", e.toString())
                 _uiState.emit(
                     uiState.value.copy(
-                        isProgress = false
+                        isProgress = false,
+                        errorMsg = e.toString()
                     )
                 )
             }
@@ -90,6 +92,17 @@ class AddReviewViewModel @Inject constructor(
             _uiState.emit(
                 uiState.value.copy(
                     selectedRestaurant = it
+                )
+            )
+        }
+    }
+
+    fun deleteRestaurantAndContents() {
+        viewModelScope.launch {
+            _uiState.emit(
+                uiState.value.copy(
+                    selectedRestaurant = null,
+                    contents = ""
                 )
             )
         }

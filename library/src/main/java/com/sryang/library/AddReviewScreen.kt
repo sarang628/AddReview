@@ -57,8 +57,15 @@ fun AddReviewScreen(
             composable("addReview") {
                 AddReview(
                     uiState = uiState,
-                    onShare = { addReviewViewModel.onShare(context = context) },
-                    onBack = { navController.popBackStack() },
+                    onShare = {
+                        addReviewViewModel.onShare(context = context, onShared = {
+
+                        })
+                    },
+                    onBack = {
+                        addReviewViewModel.deleteRestaurantAndContents()
+                        navController.popBackStack()
+                    },
                     onRestaurant = { navController.navigate("selectRestaurant") },
                     isShareAble = uiState.isShareAble,
                     onTextChange = { addReviewViewModel.inputText(it) },

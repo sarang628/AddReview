@@ -96,6 +96,7 @@ fun AddReview(
                 .fillMaxWidth()
                 .background(Color.LightGray)
         )
+        Text(text = uiState.errorMsg ?: "")
     }
 }
 
@@ -194,7 +195,7 @@ fun WriteCaption(input: String, onValueChange: (String) -> Unit) {
 @Composable
 fun PreviewAddReview() {
     AddReview(
-        uiState = AddReviewUiState(),
+        uiState = AddReviewUiState(errorMsg = "Error"),
         onShare = { /*TODO*/ },
         onBack = {},
         onRestaurant = { /*TODO*/ },
