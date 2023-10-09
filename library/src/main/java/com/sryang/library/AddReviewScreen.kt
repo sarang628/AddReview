@@ -35,7 +35,8 @@ fun AddReviewScreen(
     color: Color = Color(0xFFFFFBE6),
     galleryScreen: @Composable () -> Unit,
     navController: NavHostController,
-    onRestaurant: (SelectRestaurantData) -> Unit
+    onRestaurant: (SelectRestaurantData) -> Unit,
+    onShared: () -> Unit
 ) {
     val uiState: AddReviewUiState by addReviewViewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -58,9 +59,7 @@ fun AddReviewScreen(
                 AddReview(
                     uiState = uiState,
                     onShare = {
-                        addReviewViewModel.onShare(context = context, onShared = {
-
-                        })
+                        addReviewViewModel.onShare(context = context, onShared = onShared)
                     },
                     onBack = {
                         addReviewViewModel.deleteRestaurantAndContents()

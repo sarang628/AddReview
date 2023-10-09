@@ -40,6 +40,9 @@ class MainActivity : ComponentActivity() {
                 onRestaurant = {
                     addReviewViewModel.selectRestaurant(it)
                     navController.popBackStack()
+                },
+                onShared = {
+
                 }
             )
         }
