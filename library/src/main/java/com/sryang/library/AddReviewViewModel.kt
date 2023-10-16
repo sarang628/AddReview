@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sryang.library.selectrestaurant.SelectRestaurantData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import id.zelory.compressor.Compressor
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -49,9 +48,7 @@ class AddReviewViewModel @Inject constructor(
                             3.0f.toString().toRequestBody("text/plain".toMediaTypeOrNull())
                         )
                     },
-                    file = if (uiState.value.list != null) filesToMultipart(
-                        compress(context = context, file = uiState.value.list!!)
-                    ) else ArrayList()
+                    file = if (uiState.value.list != null) filesToMultipart(uiState.value.list!!) else ArrayList()
                 )
                 _uiState.emit(uiState.value.copy(isProgress = false))
                 onShared.invoke()
@@ -107,14 +104,4 @@ class AddReviewViewModel @Inject constructor(
             )
         }
     }
-}
-
-suspend fun compress(file: List<String>, context: Context): ArrayList<String> {
-    val list = ArrayList<String>()
-    file.forEach() {
-        list.add(
-            Compressor.compress(context = context, imageFile = File(it)).path
-        )
-    }
-    return list
 }
