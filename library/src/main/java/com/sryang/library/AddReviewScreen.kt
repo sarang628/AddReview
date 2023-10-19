@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -30,8 +31,8 @@ import kotlin.streams.toList
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun AddReviewScreen(
-    addReviewViewModel: AddReviewViewModel,
-    selectRestaurantViewModel: SelectRestaurantViewModel,
+    addReviewViewModel: AddReviewViewModel = hiltViewModel(),
+    selectRestaurantViewModel: SelectRestaurantViewModel = hiltViewModel(),
     color: Color = Color(0xFFFFFBE6),
     galleryScreen: @Composable () -> Unit,
     navController: NavHostController,
