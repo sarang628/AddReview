@@ -20,18 +20,17 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             AddReviewScreen(
                 navController = navController,
-                galleryScreen = {
-                    GalleryScreen(color = 0xFFFFFBE6, onNext = {
-                        //addReviewViewModel.selectPictures(it)
-                        navController.navigate("addReview")
-                    }, onClose = {})
+                galleryScreen = { color, onNext, onClose ->
+                    GalleryScreen(color = color, onNext = onNext, onClose = onClose)
                 },
                 onRestaurant = {
-                    //addReviewViewModel.selectRestaurant(it)
                     navController.popBackStack()
                 },
                 onShared = {
 
+                },
+                onNext = {
+                    navController.navigate("addReview")
                 }
             )
         }

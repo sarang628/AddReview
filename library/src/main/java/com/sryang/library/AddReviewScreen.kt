@@ -34,10 +34,16 @@ fun AddReviewScreen(
     addReviewViewModel: AddReviewViewModel = hiltViewModel(),
     selectRestaurantViewModel: SelectRestaurantViewModel = hiltViewModel(),
     color: Color = Color(0xFFFFFBE6),
-    galleryScreen: @Composable () -> Unit,
+    galleryScreen: @Composable (
+        color: Long,
+        onNext: (List<String>) -> Unit,
+        onClose: (Void?) -> Unit
+    ) -> Unit,
     navController: NavHostController,
     onRestaurant: (SelectRestaurantData) -> Unit,
-    onShared: () -> Unit
+    onShared: () -> Unit,
+    onNext: () -> Unit,
+    galleryColor: Long = 0xFFFFFBE6,
 ) {
     val uiState: AddReviewUiState by addReviewViewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -53,7 +59,14 @@ fun AddReviewScreen(
                 .background(color)
         ) {
             composable("gallery") {
-                galleryScreen.invoke()
+                galleryScreen.invoke(
+                    color = galleryColor,
+                    onNext = {
+                        addReviewViewModel.selectPictures(it)
+                        onNext.invoke()
+                    },
+                    onClose = { navController.popBackStack() }
+                )
             }
 
             composable("addReview") {
@@ -83,7 +96,10 @@ fun AddReviewScreen(
             composable("selectRestaurant") {
                 SelectRestaurant(
                     viewModel = selectRestaurantViewModel,
-                    onRestaurant = onRestaurant,
+                    onRestaurant = {
+                        addReviewViewModel.selectRestaurant(it)
+                        onRestaurant.invoke(it)
+                    },
                     onClose = { navController.popBackStack() },
                     onRefresh = {}
                 )
