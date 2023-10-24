@@ -43,6 +43,7 @@ fun AddReviewScreen(
     onRestaurant: (SelectRestaurantData) -> Unit,
     onShared: () -> Unit,
     onNext: () -> Unit,
+    onClose: () -> Unit,
     galleryColor: Long = 0xFFFFFBE6,
 ) {
     val uiState: AddReviewUiState by addReviewViewModel.uiState.collectAsState()
@@ -65,7 +66,7 @@ fun AddReviewScreen(
                         addReviewViewModel.selectPictures(it)
                         onNext.invoke()
                     },
-                    onClose = { navController.popBackStack() }
+                    onClose = { onClose.invoke() }
                 )
             }
 
