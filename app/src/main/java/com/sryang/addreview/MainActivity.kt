@@ -31,6 +31,8 @@ class MainActivity : ComponentActivity() {
                 },
                 onNext = {
                     navController.navigate("addReview")
+                }, onClose = {
+                    navController.popBackStack()
                 }
             )
         }
