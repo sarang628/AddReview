@@ -15,6 +15,7 @@ ext {
 
     //hilt
     hiltVersion = '2.44'
+    nav_version = '2.5.3'
 
     //navigation
     navigationVersion = '2.4.0-alpha06'
@@ -22,7 +23,7 @@ ext {
     torangImageLoaderVersion = 'f4a2359698'
     themeVersion = '7c191eb4e6'
     navigationModuleVersion = 'd98f57435d'
-    repositoryVersion = '93996d0058'
+    torangRepositoryVersion = '93996d0058'
     baseFeedVersion = 'aa5b46f3e0'
     instaGramGalleryVersion = '50ecde5309'
     room_version = "2.5.1"
