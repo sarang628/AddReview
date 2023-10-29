@@ -25,7 +25,7 @@ ext {
     navigationModuleVersion = 'd98f57435d'
     torangRepositoryVersion = '93996d0058'
     baseFeedVersion = 'aa5b46f3e0'
-    instaGramGalleryVersion = '50ecde5309'
+    instagramGalleryVersion = '8cd1c00bcf'
     room_version = "2.5.1"
     composePermissionTestVersion = "cf88d20371"
 }

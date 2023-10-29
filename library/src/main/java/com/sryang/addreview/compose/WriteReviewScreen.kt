@@ -1,4 +1,4 @@
-package com.sryang.library
+package com.sryang.addreview.compose
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -32,6 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.sryang.addreview.uistate.AddReviewUiState
+import com.sryang.addreview.R
 import kotlinx.coroutines.launch
 
 @Composable

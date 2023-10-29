@@ -1,4 +1,4 @@
-package com.sryang.library.selectrestaurant
+package com.sryang.addreview.data
 
 data class SelectRestaurantData(
     val restaurantId: Int,

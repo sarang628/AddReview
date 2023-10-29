@@ -1,4 +1,4 @@
-package com.sryang.library
+package com.sryang.addreview.compose
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column

@@ -1,6 +1,6 @@
-package com.sryang.library
+package com.sryang.addreview.uistate
 
-import com.sryang.library.selectrestaurant.SelectRestaurantData
+import com.sryang.addreview.data.SelectRestaurantData
 
 data class AddReviewUiState(
     val isProgress: Boolean = false,

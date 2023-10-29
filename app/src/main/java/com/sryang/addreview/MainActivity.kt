@@ -1,13 +1,15 @@
 package com.sryang.addreview
 
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.navigation.compose.rememberNavController
 import com.sarang.instagralleryModule.gallery.GalleryScreen
-import com.sryang.library.AddReviewScreen
-import com.sryang.library.AddReviewViewModel
+import com.sryang.addreview.compose.AddReviewScreen
+import com.sryang.addreview.viewmodels.AddReviewViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

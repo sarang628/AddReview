@@ -1,10 +1,13 @@
-package com.sryang.library
+package com.sryang.addreview.viewmodels
 
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sryang.library.selectrestaurant.SelectRestaurantData
+import com.sryang.addreview.usecase.ReviewUseCase
+import com.sryang.addreview.compose.filesToMultipart
+import com.sryang.addreview.data.SelectRestaurantData
+import com.sryang.addreview.uistate.AddReviewUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,12 +15,11 @@ import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 class AddReviewViewModel @Inject constructor(
-    private val addReviewService: ReviewService
+    private val addReviewService: ReviewUseCase
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<AddReviewUiState> = MutableStateFlow(AddReviewUiState())

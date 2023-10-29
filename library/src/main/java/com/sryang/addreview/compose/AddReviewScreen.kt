@@ -1,6 +1,5 @@
-package com.sryang.library
+package com.sryang.addreview.compose
 
-import android.Manifest
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,11 +17,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberPermissionState
-import com.sryang.library.selectrestaurant.SelectRestaurant
-import com.sryang.library.selectrestaurant.SelectRestaurantData
-import com.sryang.library.selectrestaurant.SelectRestaurantViewModel
+import com.sryang.addreview.uistate.AddReviewUiState
+import com.sryang.addreview.viewmodels.AddReviewViewModel
+import com.sryang.addreview.data.SelectRestaurantData
+import com.sryang.addreview.viewmodels.SelectRestaurantViewModel
+import com.sryang.addreview.uistate.isShareAble
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
@@ -48,13 +47,9 @@ fun AddReviewScreen(
 ) {
     val uiState: AddReviewUiState by addReviewViewModel.uiState.collectAsState()
     val context = LocalContext.current
-    val request = rememberPermissionState(
-        permission = Manifest.permission.READ_EXTERNAL_STORAGE,
-        onPermissionResult = { navController.go("gallery") })
     Box {
         NavHost(
-            navController = navController, startDestination =
-            if (request.status.isGranted) "gallery" else "askPermission",
+            navController = navController, startDestination = "gallery",
             modifier = Modifier
                 .fillMaxSize()
                 .background(color)
@@ -85,14 +80,6 @@ fun AddReviewScreen(
                     onTextChange = { addReviewViewModel.inputText(it) },
                     content = uiState.contents
                 )
-            }
-
-            composable("askPermission") {
-                AskPermission { request.launchPermissionRequest() }
-            }
-
-            composable("permissionDenied") {
-
             }
             composable("selectRestaurant") {
                 SelectRestaurant(

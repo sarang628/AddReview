@@ -1,9 +1,10 @@
-package com.sryang.library.selectrestaurant
+package com.sryang.addreview.viewmodels
 
 import android.util.Log
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sryang.addreview.usecase.SelectRestaurantUseCase
+import com.sryang.addreview.uistate.SelectRestaurantUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SelectRestaurantViewModel @Inject constructor(
-    private val selectRestaurantService: SelectRestaurantService
+    private val selectRestaurantService: SelectRestaurantUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SelectRestaurantUiState())

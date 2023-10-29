@@ -1,4 +1,4 @@
-package com.sryang.library.selectrestaurant
+package com.sryang.addreview.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,7 +28,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.sryang.library.R
+import com.sryang.addreview.R
+import com.sryang.addreview.data.SelectRestaurantData
+import com.sryang.addreview.viewmodels.SelectRestaurantViewModel
 
 @Composable
 fun SelectRestaurant(
