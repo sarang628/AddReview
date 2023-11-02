@@ -43,7 +43,6 @@ fun AddReviewScreen(
     onShared: () -> Unit,
     onNext: () -> Unit,
     onClose: () -> Unit,
-    galleryColor: Long = 0xFFFFFBE6,
 ) {
     val uiState: AddReviewUiState by addReviewViewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -52,11 +51,10 @@ fun AddReviewScreen(
             navController = navController, startDestination = "gallery",
             modifier = Modifier
                 .fillMaxSize()
-                .background(color)
         ) {
             composable("gallery") {
                 galleryScreen.invoke(
-                    color = galleryColor,
+                    color = 0xFFFFFFFF,
                     onNext = {
                         addReviewViewModel.selectPictures(it)
                         onNext.invoke()

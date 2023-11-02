@@ -14,9 +14,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -35,7 +35,6 @@ import com.sryang.addreview.viewmodels.SelectRestaurantViewModel
 @Composable
 fun SelectRestaurant(
     viewModel: SelectRestaurantViewModel,
-    color: Color = Color(0xFFFFFBE6),
     onRestaurant: (SelectRestaurantData) -> Unit,
     onClose: () -> Unit, onRefresh: () -> Unit
 ) {
@@ -43,7 +42,6 @@ fun SelectRestaurant(
     Column(
         Modifier
             .fillMaxSize()
-            .background(color)
     ) {
         TitleBar(onClose, onRefresh)
         Spacer(modifier = Modifier.height(20.dp))
@@ -112,7 +110,6 @@ fun SearchBar() {
     ) {
         Row(
             Modifier
-                .background(Color(0xFFDEDEDE))
                 .padding(start = 8.dp, end = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
