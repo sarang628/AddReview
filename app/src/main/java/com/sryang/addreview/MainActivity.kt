@@ -23,7 +23,9 @@ class MainActivity : ComponentActivity() {
             AddReviewScreen(
                 navController = navController,
                 galleryScreen = { color, onNext, onClose ->
-                    GalleryScreen(color = color, onNext = onNext, onClose = onClose)
+                    GalleryScreen(
+                        onNext = onNext,
+                        onClose = { onClose.invoke(null) })
                 },
                 onRestaurant = {
                     navController.popBackStack()

@@ -8,9 +8,9 @@ plugins {
 
 ext {
     // Sdk and tools
-    compileSdk = 33
+    compileSdk = 34
     minSdk = 24
-    targetSdk = 33
+    targetSdk = 34
     buildToolsVersion = '30.0.3'
 
     //hilt
@@ -25,7 +25,7 @@ ext {
     navigationModuleVersion = 'd98f57435d'
     torangRepositoryVersion = '93996d0058'
     baseFeedVersion = 'aa5b46f3e0'
-    instagramGalleryVersion = '8cd1c00bcf'
+    instagramGalleryVersion = 'cd04d90e46'
     room_version = "2.5.1"
     composePermissionTestVersion = "cf88d20371"
 }
