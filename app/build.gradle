@@ -67,6 +67,8 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
 
     implementation project(path: ':library')
+    implementation "com.github.sarang628:MediaContentResolver:$mediaContentResolverVersion"
     implementation "com.github.sarang628:InstagramGallery:$instagramGalleryVersion"
     implementation "com.github.sarang628:TorangRepository:$torangRepositoryVersion"
+    implementation "com.github.sarang628:Theme:$themeVersion"
 }

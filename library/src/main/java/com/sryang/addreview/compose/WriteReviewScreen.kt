@@ -1,50 +1,30 @@
 package com.sryang.addreview.compose
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.sryang.addreview.uistate.AddReviewUiState
-import com.sryang.addreview.R
 import kotlinx.coroutines.launch
 
 @Composable
 fun AddReview(
-    uiState: AddReviewUiState,
-    onShare: () -> Unit,
-    onBack: (Void?) -> Unit,
-    onRestaurant: () -> Unit,
-    isShareAble: Boolean,
-    content: String,
-    onTextChange: (String) -> Unit
+    uiState: AddReviewUiState,      // 리뷰 추가 uiState
+    onShare: () -> Unit,            // 공유 클릭
+    onBack: (Void?) -> Unit,        // 뒤로가기 클릭
+    onRestaurant: () -> Unit,       // 음식점 추가 클릭
+    isShareAble: Boolean,           // 공유 가능 여부
+    content: String,                // 내용
+    onTextChange: (String) -> Unit  // 내용 입력 시
 ) {
     val coroutine = rememberCoroutineScope()
     val context = LocalContext.current
@@ -53,7 +33,7 @@ fun AddReview(
             .fillMaxHeight()
     ) {
         // titlebar
-        TitleBar(onShare = {
+        ReviewTitleBar(onShare = {
             coroutine.launch {
                 onShare.invoke()
             }
@@ -61,141 +41,37 @@ fun AddReview(
         // selected picture
         uiState.list?.let { SelectedPicture(list = it) }
         Spacer(modifier = Modifier.height(5.dp))
-        Text(
-            text = "",
-            Modifier
-                .height(1.dp)
-                .fillMaxWidth()
-                .background(Color.LightGray)
-        )
+
+        HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
         // select restaurant
         SelectRestaurantLabel(
             uiState.selectedRestaurant?.restaurantName,
             onRestaurant = onRestaurant
         )
         Spacer(modifier = Modifier.height(5.dp))
-        Text(
-            text = "",
-            Modifier
-                .height(1.dp)
-                .fillMaxWidth()
-                .background(Color.LightGray)
-        )
+        HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
         // Write a caption
         WriteCaption(input = content, onValueChange = onTextChange)
         Spacer(modifier = Modifier.height(5.dp))
-        Text(
-            text = "",
-            Modifier
-                .height(1.dp)
-                .fillMaxWidth()
-                .background(Color.LightGray)
-        )
+        HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
         Text(text = uiState.errorMsg ?: "")
-    }
-}
-
-@Composable
-fun TitleBar(
-    onBack: (Void?) -> Unit,
-    onShare: (Void?) -> Unit,
-    isShareAble: Boolean
-) {
-    Row(
-        modifier = Modifier
-            .height(50.dp)
-            .fillMaxWidth()
-            .padding(start = 8.dp, end = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Image(
-            painter =
-            painterResource(id = R.drawable.ic_back),
-            contentDescription = "",
-            modifier = Modifier
-                .height(30.dp)
-                .clickable {
-                    onBack.invoke(null)
-                }
-        )
-        Spacer(modifier = Modifier.width(20.dp))
-        Text(text = "New post", fontWeight = FontWeight.Bold, fontSize = 18.sp)
-        Row(Modifier.fillMaxWidth(), Arrangement.End) {
-            Text(text = "share",
-                color = Color(if (isShareAble) 0xFF4193EF else 0xFFAEAEAE),
-                modifier = Modifier.clickable(isShareAble) {
-                    onShare.invoke(null)
-                }
-            )
-        }
     }
 }
 
 val ImageSize = 100.dp
 
-@Composable
-fun SelectedPicture(list: List<String>) {
-    Row(Modifier.padding(top = 8.dp, start = 12.dp)) {
-        LazyRow(content = {
-            items(list.size) {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(list[it])
-                        .build(),
-                    contentDescription = "",
-                    modifier = Modifier.size(ImageSize),
-                    contentScale = ContentScale.Crop
-                )
-                Spacer(modifier = Modifier.width(3.dp))
-            }
-        })
-    }
-}
-
-@Composable
-fun SelectRestaurantLabel(selectedRestaurantName: String?, onRestaurant: () -> Unit) {
-    Row(
-        Modifier
-            .height(50.dp)
-            .padding(start = 18.dp)
-            .clickable { onRestaurant.invoke() },
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(text = selectedRestaurantName ?: "Add restaurant")
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun WriteCaption(input: String, onValueChange: (String) -> Unit) {
-
-    OutlinedTextField(
-        value = input,
-        placeholder = {
-            Text(text = "Write a caption", color = Color.Gray, fontSize = 14.sp)
-        },
-        onValueChange = {
-            onValueChange.invoke(it)
-        },
-        modifier = Modifier
-            .fillMaxWidth(),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = Color.Transparent,
-            unfocusedBorderColor = Color.Transparent
-        ),
-    )
-}
-
 @Preview
 @Composable
 fun PreviewAddReview() {
     AddReview(
-        uiState = AddReviewUiState(errorMsg = "Error"),
+        uiState = AddReviewUiState(list = ArrayList<String>().apply {
+            add("1")
+        }),
         onShare = { /*TODO*/ },
         onBack = {},
         onRestaurant = { /*TODO*/ },
         isShareAble = false,
-        content = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        content = "",
         onTextChange = {}
     )
 }

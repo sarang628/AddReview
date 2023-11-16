@@ -1,13 +1,17 @@
 package com.sryang.addreview
 
 import android.os.Bundle
-import android.text.TextUtils
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.sarang.instagralleryModule.gallery.GalleryScreen
+import com.google.samples.apps.sunflower.ui.TorangTheme
+import com.sarang.instagralleryModule.GalleryNavHost
 import com.sryang.addreview.compose.AddReviewScreen
 import com.sryang.addreview.viewmodels.AddReviewViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,26 +23,33 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val navController = rememberNavController()
-            AddReviewScreen(
-                navController = navController,
-                galleryScreen = { color, onNext, onClose ->
-                    GalleryScreen(
-                        onNext = onNext,
-                        onClose = { onClose.invoke(null) })
-                },
-                onRestaurant = {
-                    navController.popBackStack()
-                },
-                onShared = {
+            TorangTheme {
+                Surface(
+                    Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.background)) {
+                    val navController = rememberNavController()
+                    AddReviewScreen(
+                        navController = navController,
+                        galleryScreen = { color, onNext, onClose ->
+                            GalleryNavHost(
+                                onNext = onNext,
+                                onClose = { onClose.invoke(null) })
+                        },
+                        onRestaurant = {
+                            navController.popBackStack()
+                        },
+                        onShared = {
 
-                },
-                onNext = {
-                    navController.navigate("addReview")
-                }, onClose = {
-                    navController.popBackStack()
+                        },
+                        onNext = {
+                            navController.navigate("addReview")
+                        }, onClose = {
+                            navController.popBackStack()
+                        }
+                    )
                 }
-            )
+            }
         }
     }
 }

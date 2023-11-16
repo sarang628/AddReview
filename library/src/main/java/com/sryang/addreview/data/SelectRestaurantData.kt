@@ -5,3 +5,11 @@ data class SelectRestaurantData(
     val restaurantName: String,
     val address: String
 )
+
+fun testSelectRestaurantData(): SelectRestaurantData {
+    return SelectRestaurantData(
+        restaurantId = 1,
+        restaurantName = "restaurantName",
+        address = "address"
+    )
+}
