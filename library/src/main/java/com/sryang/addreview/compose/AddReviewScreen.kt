@@ -1,14 +1,17 @@
 package com.sryang.addreview.compose
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -35,10 +38,10 @@ fun AddReviewScreen(
     onClose: () -> Unit,                                                    // 닫기 클릭
 ) {
     val uiState: AddReviewUiState by addReviewViewModel.uiState.collectAsState()
-    val context = LocalContext.current
+    val isLogin by addReviewViewModel.isLogin.collectAsState(false)
     Box {
         NavHost(
-            navController = navController, startDestination = "gallery",
+            navController = navController, startDestination = if (isLogin) "gallery" else "login",
             modifier = Modifier
                 .fillMaxSize()
         ) {
@@ -79,6 +82,11 @@ fun AddReviewScreen(
                     onClose = { navController.popBackStack() },
                     onRefresh = {}
                 )
+            }
+            composable("login") {
+                Box(Modifier.fillMaxSize()) {
+                    Text(text = "로그인을 해주세요.", Modifier.align(Alignment.Center), fontSize = 17.sp)
+                }
             }
         }
 

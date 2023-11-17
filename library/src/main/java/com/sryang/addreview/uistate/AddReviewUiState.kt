@@ -6,6 +6,7 @@ data class AddReviewUiState(
     val isProgress: Boolean = false,
     val list: List<String>? = null,
     val contents: String = "",
+    val rating: Float = 3.0f,
     val selectedRestaurant: SelectRestaurantData? = null,
     val errorMsg: String? = null
 )
