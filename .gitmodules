@@ -1,3 +1,6 @@
 [submodule "app/src/main/java/com/sryang/addreview/di/repository"]
 	path = app/src/main/java/com/sryang/addreview/di/repository
 	url = https://github.com/sarang628/repository.git
+[submodule "app/src/main/java/com/sryang/addreview/di/addreview_di"]
+	path = app/src/main/java/com/sryang/addreview/di/addreview_di
+	url = https://github.com/sarang628/addreview_di.git
