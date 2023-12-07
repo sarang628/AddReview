@@ -25,7 +25,6 @@ import com.sryang.addreview.viewmodels.SelectRestaurantViewModel
 @Composable
 fun AddReviewScreen(
     addReviewViewModel: AddReviewViewModel = hiltViewModel(),               // 리뷰 추가 뷰모델
-    selectRestaurantViewModel: SelectRestaurantViewModel = hiltViewModel(), // 음식점 선택 뷰모델
     galleryScreen: @Composable (                                            // 갤러리 컴포즈
         color: Long,
         onNext: (List<String>) -> Unit,
@@ -74,7 +73,6 @@ fun AddReviewScreen(
             }
             composable("selectRestaurant") {
                 SelectRestaurant(
-                    viewModel = selectRestaurantViewModel,
                     onRestaurant = {
                         addReviewViewModel.selectRestaurant(it)
                         onRestaurant.invoke(it)

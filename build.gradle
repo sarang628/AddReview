@@ -13,6 +13,8 @@ ext {
     targetSdk = 34
     buildToolsVersion = '30.0.3'
 
+    room_version = "2.5.1"
+
     //hilt
     hiltVersion = '2.44'
     nav_version = '2.5.3'
@@ -20,13 +22,8 @@ ext {
     //navigation
     navigationVersion = '2.4.0-alpha06'
 
-    torangImageLoaderVersion = 'f4a2359698'
-    themeVersion = '7c191eb4e6'
-    navigationModuleVersion = 'd98f57435d'
-    torangRepositoryVersion = 'd3cc785f43'
-    baseFeedVersion = 'aa5b46f3e0'
+    torangRepositoryVersion = '40018fc578'
     instagramGalleryVersion = '4742515032'
-    room_version = "2.5.1"
     composePermissionTestVersion = "cf88d20371"
     mediaContentResolverVersion = '54ff69ee3a'
     themeVersion = '28a1702347'

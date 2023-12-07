@@ -4,5 +4,5 @@ import com.sryang.addreview.data.SelectRestaurantData
 
 
 interface SelectRestaurantUseCase {
-    suspend fun getRestaurant(): List<SelectRestaurantData>
+    suspend fun invoke(keyword : String): List<SelectRestaurantData>
 }

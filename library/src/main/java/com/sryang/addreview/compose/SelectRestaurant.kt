@@ -3,6 +3,7 @@ package com.sryang.addreview.compose
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -40,6 +42,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.sryang.addreview.R
 import com.sryang.addreview.data.SelectRestaurantData
@@ -49,7 +52,7 @@ import com.sryang.addreview.viewmodels.SelectRestaurantViewModel
 
 @Composable
 fun SelectRestaurant(
-    viewModel: SelectRestaurantViewModel,           // 음식점 추가 뷰모델
+    viewModel: SelectRestaurantViewModel = hiltViewModel(), // 음식점 선택 뷰모델
     onRestaurant: (SelectRestaurantData) -> Unit,   // 음식점 클릭
     onClose: () -> Unit, onRefresh: () -> Unit      // 닫기 클릭
 ) {
@@ -59,7 +62,13 @@ fun SelectRestaurant(
             .fillMaxSize()
     ) {
         SelectRestaurantTitleBar(onClose, onRefresh)
-        SearchBar()
+        SearchBar(
+            keyword = uiState.keyword,
+            onValueChange = {
+                viewModel.onValueChange(it)
+            }, onDelete = {
+                viewModel.clearKeyword()
+            })
         LazyColumn(modifier = Modifier
             .fillMaxSize()
             .padding(start = 8.dp, end = 8.dp), content = {
@@ -94,6 +103,7 @@ fun SelectRestaurant(
 
 @Composable
 fun SelectRestaurantTitleBar(onClose: () -> Unit, onRefresh: () -> Unit) {
+    val interactionSource = remember { MutableInteractionSource() }
     Row(
         Modifier
             .fillMaxWidth()
@@ -106,7 +116,10 @@ fun SelectRestaurantTitleBar(onClose: () -> Unit, onRefresh: () -> Unit) {
             contentDescription = "",
             Modifier
                 .width(30.dp)
-                .clickable { onClose.invoke() }
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null
+                ) { onClose.invoke() }
         )
         Spacer(modifier = Modifier.width(12.dp))
         Text(text = "Select a restaurant", fontSize = 20.sp, modifier = Modifier.weight(1f))
@@ -121,21 +134,20 @@ fun SelectRestaurantTitleBar(onClose: () -> Unit, onRefresh: () -> Unit) {
 }
 
 @Composable
-fun SearchBar() {
+fun SearchBar(
+    keyword: String,
+    onValueChange: (String) -> Unit,
+    onDelete: () -> Unit,
+) {
+    val interactionSource = remember { MutableInteractionSource() }
     Row(
         Modifier.padding(start = 8.dp, end = 8.dp),
     ) {
-        var value by rememberSaveable(stateSaver = TextFieldValue.Saver) {
-            mutableStateOf(TextFieldValue())
-        }
         BasicTextField(
             modifier = Modifier.fillMaxWidth(),
-            value = value,
+            value = keyword,
             onValueChange = {
-                // it is crucial that the update is fed back into BasicTextField in order to
-                // see updates on the text
-                //value = it
-                value = it
+                onValueChange(it)
             },
             decorationBox = { innerTextField ->
                 Row(
@@ -152,7 +164,7 @@ fun SearchBar() {
                     Spacer(Modifier.width(16.dp))
                     Box(Modifier.weight(1f)) {
                         innerTextField()
-                        if (value.text.isEmpty())
+                        if (keyword.isEmpty())
                             Text(
                                 text = "Write a restaurant",
                                 color = Color.Gray,
@@ -162,7 +174,14 @@ fun SearchBar() {
                     Image(
                         painter = painterResource(id = R.drawable.ic_close),
                         contentDescription = "",
-                        Modifier.size(20.dp)
+                        Modifier
+                            .size(20.dp)
+                            .clickable(
+                                interactionSource = interactionSource,
+                                indication = null
+                            ) {
+                                onDelete.invoke()
+                            }
                     )
                 }
             }
