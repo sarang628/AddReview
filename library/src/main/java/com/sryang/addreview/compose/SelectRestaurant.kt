@@ -194,7 +194,7 @@ fun SearchBar(
 fun PreviewSelectRestaurant() {
     SelectRestaurant(viewModel = SelectRestaurantViewModel(
         object : SelectRestaurantUseCase {
-            override suspend fun getRestaurant(): List<SelectRestaurantData> {
+            override suspend fun invoke(keyword: String): List<SelectRestaurantData> {
                 return ArrayList<SelectRestaurantData>().apply {
                     add(testSelectRestaurantData())
                     add(testSelectRestaurantData())

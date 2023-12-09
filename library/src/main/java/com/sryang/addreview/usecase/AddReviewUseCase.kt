@@ -1,7 +1,7 @@
 package com.sryang.addreview.usecase
 
 interface AddReviewUseCase {
-    suspend fun addReview(
+    suspend fun invoke(
         contents: String,
         restaurantId: Int,
         rating: Float,

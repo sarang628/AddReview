@@ -18,10 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.google.samples.apps.sunflower.ui.TorangTheme
 import com.sarang.instagralleryModule.GalleryNavHost
-import com.sryang.addreview.compose.AddReviewScreen
-import com.sryang.addreview.compose.SelectRestaurant
+import com.sryang.addreview.compose.ModReviewScreen
+import com.sryang.addreview.compose.ModifyReview
 import com.sryang.addreview.viewmodels.AddReviewViewModel
-import com.sryang.addreview.viewmodels.SelectRestaurantViewModel
 import com.sryang.torang_repository.repository.LoginRepository
 import com.sryang.torang_repository.repository.LoginRepositoryTest
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,6 +31,8 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var loginRepository: LoginRepository
+
+    val viewModel: AddReviewViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +47,7 @@ class MainActivity : ComponentActivity() {
                     Column(Modifier.verticalScroll(rememberScrollState())) {
                         Box(modifier = Modifier.height(830.dp))
                         {
-                            AddReviewScreen(
+                            /*AddReviewScreen(
                                 navController = navController,
                                 galleryScreen = { color, onNext, onClose ->
                                     GalleryNavHost(
@@ -64,14 +65,23 @@ class MainActivity : ComponentActivity() {
                                 }, onClose = {
                                     navController.popBackStack()
                                 }
+                            )*/
+
+                            ModReviewScreen(
+                                reviewId = 117,
+                                onRestaurant = { navController.popBackStack() },
+                                galleryScreen = { color, onNext, onClose ->
+                                    GalleryNavHost(
+                                        onNext = onNext,
+                                        onClose = { onClose.invoke(null) })
+                                },
+                                navController = navController,
+                                onClose = { navController.popBackStack() },
+                                onNext = { navController.popBackStack() },
+                                onShared = {}
                             )
 
-                            /*SelectRestaurant(
-                                onRestaurant = {
-                                },
-                                onClose = { },
-                                onRefresh = {}
-                            )*/
+
                         }
                         LoginRepositoryTest(loginRepository = loginRepository)
                     }

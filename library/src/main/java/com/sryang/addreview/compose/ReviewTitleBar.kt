@@ -23,9 +23,11 @@ import com.sryang.addreview.R
 
 @Composable
 fun ReviewTitleBar(
-    onBack: (Void?) -> Unit,    // 뒤로가기 클릭
-    onShare: (Void?) -> Unit,   // 공유 클릭
-    isShareAble: Boolean        // 업로드 가능 여부
+    title: String = "New post",
+    onBack: () -> Unit,    // 뒤로가기 클릭
+    onShare: () -> Unit,   // 공유 클릭
+    isShareAble: Boolean,   // 업로드 가능 여부
+    sendTitle: String = "share"
 ) {
     Row(
         modifier = Modifier
@@ -41,16 +43,16 @@ fun ReviewTitleBar(
             modifier = Modifier
                 .height(30.dp)
                 .clickable {
-                    onBack.invoke(null)
+                    onBack()
                 }
         )
         Spacer(modifier = Modifier.width(20.dp))
-        Text(text = "New post", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+        Text(text = title, fontWeight = FontWeight.Bold, fontSize = 18.sp)
         Row(Modifier.fillMaxWidth(), Arrangement.End) {
-            Text(text = "share",
+            Text(text = sendTitle,
                 color = Color(if (isShareAble) 0xFF4193EF else 0xFFAEAEAE),
                 modifier = Modifier.clickable(isShareAble) {
-                    onShare.invoke(null)
+                    onShare()
                 }
             )
         }

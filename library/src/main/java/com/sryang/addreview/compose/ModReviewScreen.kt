@@ -2,9 +2,11 @@ package com.sryang.addreview.compose
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -20,7 +22,8 @@ import com.sryang.addreview.uistate.isShareAble
 import com.sryang.addreview.viewmodels.AddReviewViewModel
 
 @Composable
-fun AddReviewScreen(
+fun ModReviewScreen(
+    reviewId: Int,
     addReviewViewModel: AddReviewViewModel = hiltViewModel(),               // 리뷰 추가 뷰모델
     galleryScreen: @Composable (                                            // 갤러리 컴포즈
         color: Long,
@@ -35,9 +38,14 @@ fun AddReviewScreen(
 ) {
     val uiState: AddReviewUiState by addReviewViewModel.uiState.collectAsState()
     val isLogin by addReviewViewModel.isLogin.collectAsState(false)
+
+    LaunchedEffect(key1 = reviewId, block = {
+        addReviewViewModel.load(reviewId)
+    })
+
     Box {
         NavHost(
-            navController = navController, startDestination = if (isLogin) "gallery" else "login",
+            navController = navController, startDestination = if (isLogin) "modReview" else "login",
             modifier = Modifier
                 .fillMaxSize()
         ) {
@@ -45,18 +53,35 @@ fun AddReviewScreen(
                 galleryScreen.invoke(
                     color = 0xFFFFFFFF,
                     onNext = {
-                        addReviewViewModel.selectPictures(it)
+                        addReviewViewModel.selectPicturesInMod(it)
                         onNext.invoke()
                     },
                     onClose = { onClose.invoke() }
                 )
             }
 
-            composable("addReview") {
+            composable("modReview") {
+                if (uiState.isLoading || uiState.retry) {
+                    Box(modifier = Modifier.fillMaxSize())
+                    {
+                        if (uiState.retry) {
+                            Button(onClick = {
+                                addReviewViewModel.load(reviewId)
+                            }, Modifier.align(Alignment.Center)) {
+                                Text(text = "retry")
+                            }
+                        } else if (uiState.isLoading) {
+                            CircularProgressIndicator(Modifier.align(Alignment.Center))
+                        }
+
+                    }
+                    return@composable
+                }
                 WriteReview(
+                    isModify = true,
                     uiState = uiState,
                     onShare = {
-                        addReviewViewModel.onShare(onShared = onShared)
+                        addReviewViewModel.onModify(onShared = onShared)
                     },
                     onBack = {
                         addReviewViewModel.deleteRestaurantAndContents()
@@ -65,7 +90,10 @@ fun AddReviewScreen(
                     onRestaurant = { navController.navigate("selectRestaurant") },
                     isShareAble = uiState.isShareAble,
                     onTextChange = { addReviewViewModel.inputText(it) },
-                    onDeletePicture = { addReviewViewModel.onDeletePicture(it) }
+                    onDeletePicture = { addReviewViewModel.onDeletePicture(it) },
+                    onAddPicture = {
+                        navController.navigate("gallery")
+                    }
                 )
             }
             composable("selectRestaurant") {
