@@ -85,7 +85,7 @@ fun ModReviewScreen(
                     },
                     onBack = {
                         addReviewViewModel.deleteRestaurantAndContents()
-                        navController.popBackStack()
+                        onClose.invoke()
                     },
                     onRestaurant = { navController.navigate("selectRestaurant") },
                     isShareAble = uiState.isShareAble,

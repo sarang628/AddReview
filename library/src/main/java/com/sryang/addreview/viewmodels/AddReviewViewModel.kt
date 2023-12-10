@@ -53,7 +53,7 @@ class AddReviewViewModel @Inject constructor(
             try {
                 _uiState.update { it.copy(isProgress = true) }
                 modReviewUseCase.invoke(
-                    reviewId = uiState.value.reviewId,
+                    reviewId = uiState.value.reviewId!!,
                     contents = uiState.value.contents,
                     rating = uiState.value.rating,
                     files = uiState.value.list,

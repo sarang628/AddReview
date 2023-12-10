@@ -76,7 +76,7 @@ class MainActivity : ComponentActivity() {
                                         onClose = { onClose.invoke(null) })
                                 },
                                 navController = navController,
-                                onClose = { navController.popBackStack() },
+                                onClose = { },
                                 onNext = { navController.popBackStack() },
                                 onShared = {}
                             )

@@ -4,7 +4,7 @@ import com.sryang.addreview.uistate.Picture
 
 interface ModReviewUseCase {
     suspend fun invoke(
-        reviewId : Int? = null,
+        reviewId : Int,
         contents: String,
         restaurantId: Int,
         rating: Float,
