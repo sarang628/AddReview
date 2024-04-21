@@ -64,6 +64,9 @@ class MainActivity : ComponentActivity() {
                                     navController.navigate("addReview")
                                 }, onClose = {
                                     navController.popBackStack()
+                                },
+                                onNotSelected = {
+
                                 }
                             )
 
@@ -78,7 +81,10 @@ class MainActivity : ComponentActivity() {
                                 navController = navController,
                                 onClose = { },
                                 onNext = { navController.popBackStack() },
-                                onShared = {}
+                                onShared = {},
+                                onNotSelected = {
+
+                                }
                             )*/
 
 

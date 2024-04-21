@@ -32,6 +32,7 @@ fun AddReviewScreen(
     onShared: () -> Unit,                                                   // 업로드 완료시
     onNext: () -> Unit,                                                     // 사진 선택 완료시
     onClose: () -> Unit,                                                    // 닫기 클릭
+    onNotSelected: () -> Unit,                                                    // 닫기 클릭
 ) {
     val uiState: AddReviewUiState by addReviewViewModel.uiState.collectAsState()
     val isLogin by addReviewViewModel.isLogin.collectAsState(false)
@@ -77,7 +78,7 @@ fun AddReviewScreen(
                     onClose = { navController.popBackStack() },
                     onNotSelected = {
                         addReviewViewModel.notSelectRestaurant()
-                        navController.popBackStack()
+                        onNotSelected()
                     }
                 )
             }

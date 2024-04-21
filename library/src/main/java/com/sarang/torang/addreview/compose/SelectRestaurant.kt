@@ -46,7 +46,8 @@ import com.sarang.torang.addreview.viewmodels.SelectRestaurantViewModel
 fun SelectRestaurant(
     viewModel: SelectRestaurantViewModel = hiltViewModel(),
     onRestaurant: (SelectRestaurantData) -> Unit,
-    onClose: () -> Unit, onNotSelected: () -> Unit
+    onClose: () -> Unit,
+    onNotSelected: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
     Column(
