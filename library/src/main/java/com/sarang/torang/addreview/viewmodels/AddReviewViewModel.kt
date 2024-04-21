@@ -91,23 +91,15 @@ class AddReviewViewModel @Inject constructor(
         }
     }
 
-    fun inputText(it: String) {
-        viewModelScope.launch {
-            _uiState.emit(
-                uiState.value.copy(
-                    contents = it
-                )
-            )
+    fun inputText(contents: String) {
+        _uiState.update {
+            it.copy(contents = contents)
         }
     }
 
-    fun selectRestaurant(it: SelectRestaurantData) {
-        viewModelScope.launch {
-            _uiState.emit(
-                uiState.value.copy(
-                    selectedRestaurant = it
-                )
-            )
+    fun selectRestaurant(selectedRestaurant: SelectRestaurantData) {
+        _uiState.update {
+            it.copy(selectedRestaurant = selectedRestaurant)
         }
     }
 
@@ -142,5 +134,9 @@ class AddReviewViewModel @Inject constructor(
                 it.url != url
             })
         }
+    }
+
+    fun notSelectRestaurant() {
+        _uiState.update { it.copy(selectedRestaurant = null) }
     }
 }

@@ -75,7 +75,10 @@ fun AddReviewScreen(
                         onRestaurant.invoke(it)
                     },
                     onClose = { navController.popBackStack() },
-                    onNotSelected = {}
+                    onNotSelected = {
+                        addReviewViewModel.notSelectRestaurant()
+                        navController.popBackStack()
+                    }
                 )
             }
             composable("login") {
