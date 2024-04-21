@@ -104,7 +104,10 @@ fun ModReviewScreen(
                         onRestaurant.invoke(it)
                     },
                     onClose = { navController.popBackStack() },
-                    onNotSelected = onNotSelected
+                    onNotSelected = {
+                        addReviewViewModel.notSelectRestaurant()
+                        onNotSelected
+                    }
                 )
             }
             composable("login") {
