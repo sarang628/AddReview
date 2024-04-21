@@ -11,7 +11,7 @@ android {
     compileSdk rootProject.compileSdk
 
     defaultConfig {
-        applicationId "com.sryang.feedscreentestapp"
+        applicationId "com.sarang.torang"
         minSdk rootProject.minSdk
         targetSdk rootProject.targetSdk
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -52,7 +52,7 @@ android {
         targetCompatibility JavaVersion.VERSION_17
         sourceCompatibility JavaVersion.VERSION_17
     }
-    namespace 'com.sryang.addreview'
+    namespace 'com.sarang.torang'
 }
 
 dependencies {

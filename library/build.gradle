@@ -35,7 +35,7 @@ android {
         kotlinCompilerExtensionVersion = "1.4.6"
     }
 
-    namespace 'com.sryang.addreview'
+    namespace 'com.sarang.torang'
 }
 
 dependencies {
