@@ -106,7 +106,7 @@ fun ModReviewScreen(
                     onClose = { navController.popBackStack() },
                     onNotSelected = {
                         addReviewViewModel.notSelectRestaurant()
-                        onNotSelected
+                        onNotSelected()
                     }
                 )
             }
