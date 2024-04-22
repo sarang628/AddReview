@@ -94,6 +94,9 @@ fun ModReviewScreen(
                     onDeletePicture = { addReviewViewModel.onDeletePicture(it) },
                     onAddPicture = {
                         navController.navigate("gallery")
+                    },
+                    onChangeRating = {
+                        addReviewViewModel.changeRating(it)
                     }
                 )
             }

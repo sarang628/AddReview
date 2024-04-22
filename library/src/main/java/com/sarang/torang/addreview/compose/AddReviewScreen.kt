@@ -66,7 +66,8 @@ fun AddReviewScreen(
                     onRestaurant = { navController.navigate("selectRestaurant") },
                     isShareAble = uiState.isShareAble,
                     onTextChange = { addReviewViewModel.inputText(it) },
-                    onDeletePicture = { addReviewViewModel.onDeletePicture(it) }
+                    onDeletePicture = { addReviewViewModel.onDeletePicture(it) },
+                    onChangeRating = { addReviewViewModel.changeRating(it) }
                 )
             }
             composable("selectRestaurant") {

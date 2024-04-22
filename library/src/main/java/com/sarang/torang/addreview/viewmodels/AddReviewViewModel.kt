@@ -139,4 +139,9 @@ class AddReviewViewModel @Inject constructor(
     fun notSelectRestaurant() {
         _uiState.update { it.copy(selectedRestaurant = null) }
     }
+
+    fun changeRating(rating: Float) {
+        Log.d("AddReviewViewModel", "changeRating:${rating}")
+        _uiState.update { it.copy(rating = rating) }
+    }
 }

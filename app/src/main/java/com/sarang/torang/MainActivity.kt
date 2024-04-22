@@ -13,8 +13,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.google.samples.apps.sunflower.ui.TorangTheme
 import com.sarang.instagralleryModule.GalleryNavHost
@@ -47,53 +50,56 @@ class MainActivity : ComponentActivity() {
                     Column(Modifier.verticalScroll(rememberScrollState())) {
                         Box(modifier = Modifier.height(830.dp))
                         {
-                            AddReviewScreen(
-                                navController = navController,
-                                galleryScreen = { color, onNext, onClose ->
-                                    GalleryNavHost(
-                                        onNext = onNext,
-                                        onClose = { onClose.invoke(null) })
-                                },
-                                onRestaurant = {
-                                    navController.popBackStack()
-                                },
-                                onShared = {
-
-                                },
-                                onNext = {
-                                    navController.navigate("addReview")
-                                }, onClose = {
-                                    navController.popBackStack()
-                                },
-                                onNotSelected = {
-
-                                }
-                            )
-
-                            /*ModReviewScreen(
-                                reviewId = 117,
-                                onRestaurant = { navController.popBackStack() },
-                                galleryScreen = { color, onNext, onClose ->
-                                    GalleryNavHost(
-                                        onNext = onNext,
-                                        onClose = { onClose.invoke(null) })
-                                },
-                                navController = navController,
-                                onClose = { },
-                                onNext = { navController.popBackStack() },
-                                onShared = {},
-                                onNotSelected = {
-
-                                }
-                            )*/
-
-
+//                            AddReview(navController)
+                            ModReview(navController)
                         }
                         LoginRepositoryTest(loginRepository = loginRepository)
                     }
                 }
             }
         }
+    }
+
+    @Composable
+    fun AddReview(navController: NavHostController) {
+        AddReviewScreen(
+            navController = navController,
+            galleryScreen = { color, onNext, onClose ->
+                GalleryNavHost(
+                    onNext = onNext,
+                    onClose = { onClose.invoke(null) })
+            },
+            onRestaurant = {
+                navController.popBackStack()
+            },
+            onShared = {
+
+            },
+            onNext = {
+                navController.navigate("addReview")
+            }, onClose = {
+                navController.popBackStack()
+            },
+            onNotSelected = {}
+        )
+    }
+
+    @Composable
+    fun ModReview(navController: NavHostController) {
+        ModReviewScreen(
+            reviewId = 365,
+            onRestaurant = { navController.popBackStack() },
+            galleryScreen = { color, onNext, onClose ->
+                GalleryNavHost(
+                    onNext = onNext,
+                    onClose = { onClose.invoke(null) })
+            },
+            navController = navController,
+            onClose = { },
+            onNext = { navController.popBackStack() },
+            onShared = {},
+            onNotSelected = {}
+        )
     }
 }
 

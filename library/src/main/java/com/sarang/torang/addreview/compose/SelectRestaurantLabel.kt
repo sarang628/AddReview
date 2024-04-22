@@ -8,17 +8,25 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SelectRestaurantLabel(selectedRestaurantName: String?, onRestaurant: () -> Unit) {
+fun SelectRestaurantLabel(modifier: Modifier = Modifier, selectedRestaurantName: String?, onRestaurant: () -> Unit) {
     Row(
-        Modifier
+        modifier
             .height(50.dp)
-            .padding(start = 18.dp)
             .clickable { onRestaurant.invoke() },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(text = selectedRestaurantName ?: "Add restaurant")
+    }
+}
+
+@Preview
+@Composable
+fun PreviewSelectRestaurantLabel() {
+    SelectRestaurantLabel(selectedRestaurantName = "selectedRestaurantName") {
+
     }
 }
