@@ -10,3 +10,6 @@
 [submodule "app/src/main/java/com/sarang/torang/di/addreview_di"]
 	path = app/src/main/java/com/sarang/torang/di/addreview_di
 	url = https://github.com/sarang628/addreview_di
+[submodule "app/src/main/java/com/sarang/torang/di/torangcomposepack"]
+	path = app/src/main/java/com/sarang/torang/di/torangcomposepack
+	url = https://github.com/sarang628/torangcomposepack.git
