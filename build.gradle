@@ -24,7 +24,7 @@ ext {
 
     torangRepositoryVersion = '544b126a86'
     instagramGalleryVersion = 'd9f9e5ee73'
-    composePermissionTestVersion = "cf88d20371"
+    composePermissionTestVersion = "0f86ef39ec"
     mediaContentResolverVersion = '54ff69ee3a'
     themeVersion = '28a1702347'
 }
