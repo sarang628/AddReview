@@ -80,7 +80,9 @@ class MainActivity : ComponentActivity() {
             }, onClose = {
                 navController.popBackStack()
             },
-            onNotSelected = {}
+            onNotSelected = {},
+            onBack = {},
+            onLogin = {}
         )
     }
 

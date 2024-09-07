@@ -13,3 +13,6 @@
 [submodule "app/src/main/java/com/sarang/torang/di/torangcomposepack"]
 	path = app/src/main/java/com/sarang/torang/di/torangcomposepack
 	url = https://github.com/sarang628/torangcomposepack.git
+[submodule "gradle/TorangToml"]
+	path = gradle/TorangToml
+	url = https://github.com/sarang628/TorangToml.git
