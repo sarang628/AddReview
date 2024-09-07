@@ -1,6 +1,7 @@
 package com.sarang.torang.addreview.compose
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -122,8 +123,11 @@ private fun Login(onBack: () -> Unit, onLogin: () -> Unit) {
                 .padding(it)
                 .fillMaxSize()
         ) {
-            Button(onClick = onLogin, Modifier.align(Alignment.Center)) {
+            Column(Modifier.align(Alignment.Center)) {
                 Text(text = "로그인을 해주세요.", fontSize = 17.sp)
+                Button(onClick = onLogin) {
+                    Text(text = "LOGIN WITH EMAIL")
+                }
             }
         }
     }
