@@ -14,21 +14,11 @@ import androidx.compose.ui.unit.sp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WriteCaption(input: String, onValueChange: (String) -> Unit) {
-
     OutlinedTextField(
         value = input,
-        placeholder = {
-            Text(text = "Write a caption", color = Color.Gray, fontSize = 14.sp)
-        },
-        onValueChange = {
-            onValueChange.invoke(it)
-        },
-        modifier = Modifier
-            .fillMaxWidth(),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = Color.Transparent,
-            unfocusedBorderColor = Color.Transparent
-        ),
+        placeholder = { Text(text = "Write a caption", color = Color.Gray, fontSize = 14.sp) },
+        onValueChange = { onValueChange.invoke(it) },
+        modifier = Modifier.fillMaxWidth(),
     )
 }
 
