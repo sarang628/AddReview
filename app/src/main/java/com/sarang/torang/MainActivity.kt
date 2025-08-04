@@ -40,11 +40,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TorangTheme {
-                Surface(
-                    Modifier
-                        .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.background)
-                ) {
+                Surface(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
                     val navController = rememberNavController()
                     Column(Modifier.verticalScroll(rememberScrollState())) {
                         Box(modifier = Modifier.height(830.dp))
@@ -63,18 +59,11 @@ class MainActivity : ComponentActivity() {
     fun AddReview(navController: NavHostController) {
         AddReviewScreen(
             navController = navController,
-            galleryScreen = { color, onNext, onClose -> GalleryWithPhotoPicker(onNext = onNext, onClose = { onClose.invoke(null) }) },
-            onRestaurant = {
-                navController.popBackStack()
-            },
-            onShared = {
-
-            },
-            onNext = {
-                navController.navigate("addReview")
-            }, onClose = {
-                navController.popBackStack()
-            },
+            galleryScreen = { color, onNext, onClose -> GalleryWithPhotoPicker(onNext = onNext, onClose = { onClose.invoke() }) },
+            onRestaurant = { navController.popBackStack() },
+            onShared = {},
+            onNext = { navController.navigate("addReview") },
+            onClose = { navController.popBackStack() },
             onNotSelected = {},
             onBack = {},
             onLogin = {}
