@@ -16,16 +16,15 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.google.samples.apps.sunflower.ui.TorangTheme
-import com.sarang.instagralleryModule.GalleryNavHost
+import com.example.instagramgallery.di.Instagramgallery_di.GalleryWithPhotoPicker
 import com.sarang.torang.addreview.compose.AddReviewScreen
 import com.sarang.torang.addreview.compose.ModReviewScreen
 import com.sarang.torang.addreview.viewmodels.AddReviewViewModel
 import com.sarang.torang.repository.LoginRepository
 import com.sarang.torang.repository.LoginRepositoryTest
+import com.sryang.torang.ui.TorangTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -50,8 +49,8 @@ class MainActivity : ComponentActivity() {
                     Column(Modifier.verticalScroll(rememberScrollState())) {
                         Box(modifier = Modifier.height(830.dp))
                         {
-//                            AddReview(navController)
-                            ModReview(navController)
+                            AddReview(navController)
+//                            ModReview(navController)
                         }
                         LoginRepositoryTest(loginRepository = loginRepository)
                     }
@@ -64,11 +63,7 @@ class MainActivity : ComponentActivity() {
     fun AddReview(navController: NavHostController) {
         AddReviewScreen(
             navController = navController,
-            galleryScreen = { color, onNext, onClose ->
-                GalleryNavHost(
-                    onNext = onNext,
-                    onClose = { onClose.invoke(null) })
-            },
+            galleryScreen = { color, onNext, onClose -> GalleryWithPhotoPicker(onNext = onNext, onClose = { onClose.invoke(null) }) },
             onRestaurant = {
                 navController.popBackStack()
             },
@@ -91,11 +86,7 @@ class MainActivity : ComponentActivity() {
         ModReviewScreen(
             reviewId = 365,
             onRestaurant = { navController.popBackStack() },
-            galleryScreen = { color, onNext, onClose ->
-                GalleryNavHost(
-                    onNext = onNext,
-                    onClose = { onClose.invoke(null) })
-            },
+            galleryScreen = { color, onNext, onClose -> GalleryWithPhotoPicker(onNext = onNext, onClose = { onClose.invoke(null) }) },
             navController = navController,
             onClose = { },
             onNext = { navController.popBackStack() },
