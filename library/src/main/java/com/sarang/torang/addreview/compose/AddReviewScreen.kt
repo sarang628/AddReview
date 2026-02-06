@@ -24,29 +24,40 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.sarang.torang.addreview.data.SelectRestaurantData
 import com.sarang.torang.addreview.uistate.AddReviewUiState
 import com.sarang.torang.addreview.uistate.isShareAble
 import com.sarang.torang.addreview.viewmodels.AddReviewViewModel
 
-/**
- * @param addReviewViewModel 리뷰 추가 뷰모델
- * @param galleryScreen 갤러리 컴포즈
- * @param navController 네비게이션 컨트롤러
- * @param onRestaurant 음식점 클릭
- * @param onShared 업로드 완료시
- * @param onNext 사진 선택 완료시
- * @param onClose 닫기 클릭
- * @param onNotSelected 선태 안함 클릭
- */
+class GalleryScreenData(
+    val color: Long,
+    val onNext: (List<String>) -> Unit = {},
+    val onClose: () -> Unit = {}
+)
+
 @Composable
-fun AddReviewScreen(addReviewViewModel: AddReviewViewModel = hiltViewModel(), galleryScreen: @Composable (color: Long, onNext: (List<String>) -> Unit, onClose: () -> Unit) -> Unit = {_,_,_->}, navController: NavHostController, onRestaurant: (SelectRestaurantData) -> Unit = {}, onShared: () -> Unit = {}, onNext: () -> Unit = {}, onClose: () -> Unit = {}, onNotSelected: () -> Unit = {}, onBack: () -> Unit = {}, onLogin: () -> Unit = {}) {
+fun AddReviewScreen(addReviewViewModel  : AddReviewViewModel                        = hiltViewModel(),
+                    galleryScreen       : @Composable (GalleryScreenData) -> Unit   = {},
+                    navController       : NavHostController                         = rememberNavController(),
+                    onRestaurant        : (SelectRestaurantData) -> Unit            = {},
+                    onShared            : () -> Unit                                = {},
+                    onNext              : () -> Unit                                = {},
+                    onClose             : () -> Unit                                = {},
+                    onNotSelected       : () -> Unit                                = {},
+                    onBack              : () -> Unit                                = {},
+                    onLogin             : () -> Unit                                = {}) {
     val uiState: AddReviewUiState by addReviewViewModel.uiState.collectAsState()
     val isLogin by addReviewViewModel.isLogin.collectAsState(false)
     Box {
-        NavHost(modifier = Modifier.fillMaxSize(), navController = navController, startDestination = if (isLogin) "gallery" else "login") {
+        NavHost(modifier            = Modifier.fillMaxSize(),
+                navController       = navController,
+                startDestination    = if (isLogin) "gallery" else "login") {
             composable("gallery") {
-                galleryScreen.invoke(0xFFFFFFFF, { addReviewViewModel.selectPictures(it);onNext.invoke() }, { onClose.invoke() })
+                galleryScreen.invoke(GalleryScreenData(color = 0xFFFFFFFF,
+                                                            onNext = { addReviewViewModel.selectPictures(it)
+                                                                       onNext.invoke() },
+                                                            onClose = { onClose.invoke() }))
             }
             composable("addReview") {
                 WriteReview(

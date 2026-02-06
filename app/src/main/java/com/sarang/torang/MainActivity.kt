@@ -10,12 +10,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -39,19 +40,29 @@ class MainActivity : ComponentActivity() {
             TorangTheme {
                 Surface(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
                     val navController = rememberNavController()
-                    Column(Modifier.verticalScroll(rememberScrollState())) {
-                        Box(modifier = Modifier.height(830.dp))
-                        {
-                            NavHost(navController = navController, startDestination = "AddReview"){
-                                composable("AddReview") {
-                                    AddReview(navController)
-                                }
-                                composable("ModReview") {
-                                    ModReview(navController)
+                    Box(modifier = Modifier.height(830.dp))
+                    {
+                        NavHost(navController = navController, startDestination = "Menu"){
+                            composable("Menu") {
+                                Column {
+                                    Button({navController.navigate("AddReview")}) {
+                                        Text("AddReview")
+                                    }
+                                    Button({navController.navigate("LoginRepositoryTest")}) {
+                                        Text("LoginRepositoryTest")
+                                    }
                                 }
                             }
+                            composable("AddReview") {
+                                AddReview(rememberNavController())
+                            }
+                            composable("ModReview") {
+                                ModReview(rememberNavController())
+                            }
+                            composable("LoginRepositoryTest") {
+                                LoginRepositoryTest(loginRepository = loginRepository)
+                            }
                         }
-                        LoginRepositoryTest(loginRepository = loginRepository)
                     }
                 }
             }
@@ -62,7 +73,7 @@ class MainActivity : ComponentActivity() {
     fun AddReview(navController: NavHostController) {
         AddReviewScreen(
             navController = navController,
-            galleryScreen = { color, onNext, onClose -> GalleryWithPhotoPicker(onNext = onNext, onClose = { onClose.invoke() }) },
+            galleryScreen = { GalleryWithPhotoPicker(onNext = it.onNext, onClose = { it.onClose.invoke() }) },
             onRestaurant = { navController.popBackStack() },
             onShared = {},
             onNext = { navController.navigate("addReview") },
