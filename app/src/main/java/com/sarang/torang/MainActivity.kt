@@ -3,7 +3,6 @@ package com.sarang.torang
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,25 +15,23 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.instagramgallery.di.Instagramgallery_di.GalleryWithPhotoPicker
 import com.sarang.torang.addreview.compose.AddReviewScreen
 import com.sarang.torang.addreview.compose.ModReviewScreen
-import com.sarang.torang.addreview.viewmodels.AddReviewViewModel
 import com.sarang.torang.repository.LoginRepository
-import com.sarang.torang.repository.LoginRepositoryTest
+import com.sarang.torang.repository.test.LoginRepositoryTest
 import com.sryang.torang.ui.TorangTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    @Inject
-    lateinit var loginRepository: LoginRepository
-
-    val viewModel: AddReviewViewModel by viewModels()
+    @Inject lateinit var loginRepository: LoginRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,8 +42,14 @@ class MainActivity : ComponentActivity() {
                     Column(Modifier.verticalScroll(rememberScrollState())) {
                         Box(modifier = Modifier.height(830.dp))
                         {
-                            AddReview(navController)
-//                            ModReview(navController)
+                            NavHost(navController = navController, startDestination = "AddReview"){
+                                composable("AddReview") {
+                                    AddReview(navController)
+                                }
+                                composable("ModReview") {
+                                    ModReview(navController)
+                                }
+                            }
                         }
                         LoginRepositoryTest(loginRepository = loginRepository)
                     }
