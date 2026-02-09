@@ -6,8 +6,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
@@ -17,7 +15,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -32,18 +30,17 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
 @Composable
-fun SelectedPicture(
-    list: List<String> /*선택된 이미지*/,
-    onDelete: (String) -> Unit,
-    onAddPicture: (() -> Unit)? = null
-) {
+fun SelectedPicture(modifier        : Modifier          = Modifier,
+                    list            : List<String>      = listOf(),
+                    onDelete        : (String) -> Unit  = {},
+                    onAddPicture    : () -> Unit        = {}) {
     val size = list.size + 1
-    Row(Modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp)) {
+    Row(modifier = modifier) {
         LazyRow(content = {
             items(size) {
                 val interactionSource = remember { MutableInteractionSource() }
                 if (it < size - 1) {
-                    Box {
+                    Box(modifier = Modifier.size(ImageSize + 20.dp)) {
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
                                 .data(list[it])
@@ -51,28 +48,30 @@ fun SelectedPicture(
                             contentDescription = "",
                             modifier = Modifier
                                 .size(ImageSize)
+                                .align(Alignment.Center)
+                                .clip(RoundedCornerShape(5.dp))
                                 .background(Color.LightGray),
                             contentScale = ContentScale.Crop
                         )
-                        Icon(
-                            imageVector = Icons.Default.Clear,
-                            contentDescription = "",
-                            modifier = Modifier
-                                .align(Alignment.TopEnd)
-                                .clickable(
-                                    interactionSource = interactionSource,
-                                    indication = null
-                                ) { onDelete.invoke(list[it]) }
-                        )
+                        IconButton(modifier = Modifier.align(Alignment.TopEnd),
+                            onClick = { onDelete.invoke(list[it]) }) {
+                            Icon(
+                                imageVector = Icons.Default.Clear,
+                                contentDescription = "",
+                            )
+                        }
                     }
                     Spacer(modifier = Modifier.width(3.dp))
                 } else {
-                    Button(
-                        onClick = { onAddPicture?.invoke() },
-                        shape = RoundedCornerShape(5.dp),
-                        modifier = Modifier.size(ImageSize)
-                    ) {
-                        Icon(imageVector = Icons.Default.Add, contentDescription = "")
+                    Box(modifier = Modifier.size(ImageSize + 20.dp)){
+                        Button(
+                            onClick = { onAddPicture.invoke() },
+                            shape = RoundedCornerShape(5.dp),
+                            modifier = Modifier.size(ImageSize)
+                                .align(Alignment.Center)
+                        ) {
+                            Icon(imageVector = Icons.Default.Add, contentDescription = "")
+                        }
                     }
                 }
             }
@@ -83,13 +82,5 @@ fun SelectedPicture(
 @Preview
 @Composable
 fun PreviewSelectedPicture() {
-    SelectedPicture(list = ArrayList<String>().apply {
-        add("")
-        add("")
-        add("")
-        add("")
-        add("")
-        add("")
-        add("")
-    }, onDelete = {})
+    SelectedPicture(list = listOf(""))
 }

@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -21,9 +19,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.instagramgallery.di.Instagramgallery_di.GalleryWithPhotoPicker
-import com.sarang.torang.addreview.compose.AddReviewScreen
-import com.sarang.torang.addreview.compose.ModReviewScreen
 import com.sarang.torang.repository.LoginRepository
 import com.sarang.torang.repository.test.LoginRepositoryTest
 import com.sryang.torang.ui.TorangTheme
@@ -44,14 +39,7 @@ class MainActivity : ComponentActivity() {
                     {
                         NavHost(navController = navController, startDestination = "Menu"){
                             composable("Menu") {
-                                Column {
-                                    Button({navController.navigate("AddReview")}) {
-                                        Text("AddReview")
-                                    }
-                                    Button({navController.navigate("LoginRepositoryTest")}) {
-                                        Text("LoginRepositoryTest")
-                                    }
-                                }
+                                Menu(navController)
                             }
                             composable("AddReview") {
                                 AddReview(rememberNavController())
@@ -70,32 +58,15 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun AddReview(navController: NavHostController) {
-        AddReviewScreen(
-            navController = navController,
-            galleryScreen = { GalleryWithPhotoPicker(onNext = it.onNext, onClose = { it.onClose.invoke() }) },
-            onRestaurant = { navController.popBackStack() },
-            onShared = {},
-            onNext = { navController.navigate("addReview") },
-            onClose = { navController.popBackStack() },
-            onNotSelected = {},
-            onBack = {},
-            onLogin = {}
-        )
-    }
-
-    @Composable
-    fun ModReview(navController: NavHostController) {
-        ModReviewScreen(
-            reviewId = 365,
-            onRestaurant = { navController.popBackStack() },
-            galleryScreen = { color, onNext, onClose -> GalleryWithPhotoPicker(onNext = onNext, onClose = { onClose.invoke(null) }) },
-            navController = navController,
-            onClose = { },
-            onNext = { navController.popBackStack() },
-            onShared = {},
-            onNotSelected = {}
-        )
+    fun Menu(navController : NavHostController){
+        Column {
+            Button({navController.navigate("AddReview")}) {
+                Text("AddReview")
+            }
+            Button({navController.navigate("LoginRepositoryTest")}) {
+                Text("LoginRepositoryTest")
+            }
+        }
     }
 }
 

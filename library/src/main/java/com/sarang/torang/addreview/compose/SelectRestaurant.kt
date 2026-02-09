@@ -16,8 +16,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -34,8 +42,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.sarang.torang.R
 import com.sarang.torang.addreview.data.SelectRestaurantData
 import com.sarang.torang.addreview.data.testSelectRestaurantData
+import com.sarang.torang.addreview.uistate.SelectRestaurantUiState
 import com.sarang.torang.addreview.usecase.SelectRestaurantUseCase
 import com.sarang.torang.addreview.viewmodels.SelectRestaurantViewModel
+import kotlin.text.get
 
 /**
  * @param viewModel 음식점 선택 뷰모델
@@ -44,82 +54,75 @@ import com.sarang.torang.addreview.viewmodels.SelectRestaurantViewModel
  */
 @Composable
 fun SelectRestaurant(
-    viewModel: SelectRestaurantViewModel = hiltViewModel(),
-    onRestaurant: (SelectRestaurantData) -> Unit,
-    onClose: () -> Unit,
-    onNotSelected: () -> Unit
+    viewModel       : SelectRestaurantViewModel         = hiltViewModel(),
+    onRestaurant    : (SelectRestaurantData) -> Unit    = {},
+    onClose         : () -> Unit                        = {},
+    onNotSelected   : () -> Unit                        = {}
 ) {
-    val uiState by viewModel.uiState.collectAsState()
-    Column(
-        Modifier
-            .fillMaxSize()
-    ) {
-        SelectRestaurantTitleBar(onClose, onNotSelected)
-        SearchBar(
-            keyword = uiState.keyword,
-            onValueChange = {
-                viewModel.onValueChange(it)
-            }, onDelete = {
-                viewModel.clearKeyword()
-            })
-        LazyColumn(modifier = Modifier
-            .fillMaxSize()
-            .padding(start = 8.dp, end = 8.dp), content = {
+    val uiState : SelectRestaurantUiState by viewModel.uiState.collectAsState()
+    Scaffold(topBar = {
+        Column {
+            SelectRestaurantTitleBar(onClose = onClose,
+                                     onNotSelected = onNotSelected)
+            SearchBar(keyword           = uiState.keyword,
+                      onValueChange     = { viewModel.onValueChange(it) },
+                      onDelete          = { viewModel.clearKeyword() })
+        }
+    }) {
+        LazyColumn(modifier = Modifier.padding(it)
+                                      .fillMaxSize()){
             items(uiState.restaurantList.size) {
-                Column(
-                    modifier = Modifier
-                        .height(60.dp)
-                        .fillMaxWidth()
-                        .clickable {
-                            onRestaurant.invoke(uiState.restaurantList[it])
-                        },
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = uiState.restaurantList[it].restaurantName,
-                        maxLines = 1,
-                        fontSize = 18.sp,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    Text(
-                        text = uiState.restaurantList[it].address,
-                        fontSize = 14.sp,
-                        color = Color.Gray,
-                        overflow = TextOverflow.Ellipsis,
-                        maxLines = 1
-                    )
-                }
+                RestaurantItem(
+                    restaurantName  = uiState.restaurantList[it].restaurantName,
+                    onRestaurant    = {onRestaurant.invoke(uiState.restaurantList[it])},
+                    address         = uiState.restaurantList[it].address
+                )
             }
-        })
+        }
     }
 }
 
 @Composable
-fun SelectRestaurantTitleBar(onClose: () -> Unit, onNotSelected: () -> Unit) {
-    val interactionSource = remember { MutableInteractionSource() }
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .height(50.dp)
-            .padding(start = 8.dp, end = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
+fun RestaurantItem(onRestaurant     : () -> Unit    = {},
+                   restaurantName   : String        = "",
+                   address          : String        = ""){
+    Column(modifier            = Modifier.height(60.dp)
+                                         .fillMaxWidth()
+                                         .clickable { onRestaurant() },
+           verticalArrangement = Arrangement.Center
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_close1),
-            contentDescription = "",
-            Modifier
-                .width(30.dp)
-                .clickable(
-                    interactionSource = interactionSource,
-                    indication = null
-                ) { onClose.invoke() }
-        )
-        Spacer(modifier = Modifier.width(12.dp))
-        Text(text = "Select a restaurant", fontSize = 20.sp, modifier = Modifier.weight(1f))
-        TextButton(onClick = { onNotSelected() }) {
-            Text(text = "Not Selected")
-        }
+        Text(text       = restaurantName,
+            maxLines   = 1,
+            fontSize   = 18.sp,
+            overflow   = TextOverflow.Ellipsis)
+        Text(text       = address,
+            fontSize   = 14.sp,
+            color      = Color.Gray,
+            overflow   = TextOverflow.Ellipsis,
+            maxLines   = 1)
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SelectRestaurantTitleBar(onClose        : () -> Unit = {},
+                             onNotSelected  : () -> Unit = {}) {
+    TopAppBar(
+        title = {
+            Text(text = "Select a restaurant")
+        },
+        navigationIcon = {
+            IconButton(onClose) {
+                Icon(imageVector = Icons.Default.Clear,
+                     contentDescription = null)
+            }
+        },
+        actions = {
+            TextButton(onClick = { onNotSelected() }) {
+                Text(text = "Not Selected")
+            }
+        }
+    )
 }
 
 @Composable

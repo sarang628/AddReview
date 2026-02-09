@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,61 +26,57 @@ val ImageSize = 100.dp
 
 @Composable
 fun WriteReview(
-    uiState: AddReviewUiState,      // 리뷰 추가 uiState
-    onShare: () -> Unit,            // 공유 클릭
-    onBack: () -> Unit,        // 뒤로가기 클릭
-    onRestaurant: () -> Unit,       // 음식점 추가 클릭
-    isShareAble: Boolean,           // 공유 가능 여부
-    onTextChange: (String) -> Unit,  // 내용 입력 시
-    isModify: Boolean = false,
-    onDeletePicture: (String) -> Unit,
-    onAddPicture: (() -> Unit)? = null,
-    onChangeRating: ((Float) -> Unit)? = null,
+    uiState         : AddReviewUiState  = AddReviewUiState(),
+    onShare         : () -> Unit        = {},
+    onBack          : () -> Unit        = {},
+    onRestaurant    : () -> Unit        = {},
+    isShareAble     : Boolean           = false,
+    onTextChange    : (String) -> Unit  = {},
+    isModify        : Boolean           = false,
+    onDeletePicture : (String) -> Unit  = {},
+    onAddPicture    : () -> Unit        = {},
+    onChangeRating  : (Float) -> Unit   = {},
 ) {
-    Column(
-        Modifier
-            .fillMaxHeight()
+    Scaffold(
+        topBar = { ReviewTitleBar(title = if (isModify) "Modify" else "New post",
+                                  onShare = onShare,
+                                  onBack = onBack,
+                                  isShareAble = isShareAble,
+                                  sendTitle = if (isModify) "update" else "share")
+        }
     ) {
-        // titlebar
-        ReviewTitleBar(
-            title = if (isModify) "Modify" else "New Post",
-            onShare = onShare,
-            onBack = onBack,
-            isShareAble = isShareAble,
-            sendTitle = if (isModify) "update" else "share",
-        )
-        // selected picture
-        uiState.list?.let {
+        Column(Modifier.padding(it)) {
             SelectedPicture(
-                list = it.map { it.url },
+                modifier = Modifier.padding(horizontal = 8.dp),
+                list = uiState.list?.map { it.url } ?: listOf(),
                 onDelete = onDeletePicture,
                 onAddPicture = onAddPicture
             )
-        }
-        Spacer(modifier = Modifier.height(5.dp))
+            Spacer(modifier = Modifier.height(5.dp))
 
-        HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
-        // select restaurant
-        SelectRestaurantLabel(
-            modifier = Modifier.padding(start = 18.dp),
-            uiState.selectedRestaurant?.restaurantName,
-            onRestaurant = onRestaurant
-        )
-        HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
-        Box(modifier = Modifier.height(50.dp)) {
-            AndroidViewRatingBar(
-                modifier = Modifier
-                    .padding(start = 16.dp)
-                    .align(Alignment.CenterStart),
-                rating = uiState.rating,
-                onChangeRating = onChangeRating
+            HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
+            // select restaurant
+            SelectRestaurantLabel(
+                modifier = Modifier.padding(start = 10.dp),
+                selectedRestaurantName = uiState.selectedRestaurant?.restaurantName ?: "",
+                onRestaurant = onRestaurant
             )
+            HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
+            Box(modifier = Modifier.height(50.dp)) {
+                AndroidViewRatingBar(
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .align(Alignment.CenterStart),
+                    rating = uiState.rating,
+                    onChangeRating = onChangeRating
+                )
+            }
+            HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
+            // Write a caption
+            WriteCaption(input = uiState.contents, onValueChange = onTextChange)
+            HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
+            Text(text = uiState.errorMsg ?: "")
         }
-        HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
-        // Write a caption
-        WriteCaption(input = uiState.contents, onValueChange = onTextChange)
-        HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
-        Text(text = uiState.errorMsg ?: "")
     }
 }
 
