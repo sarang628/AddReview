@@ -109,7 +109,9 @@ fun SelectRestaurantTitleBar(onClose        : () -> Unit = {},
                              onNotSelected  : () -> Unit = {}) {
     TopAppBar(
         title = {
-            Text(text = "Select a restaurant")
+            Text(text = "Select a restaurant",
+                 maxLines = 1,
+                 overflow = TextOverflow.Ellipsis)
         },
         navigationIcon = {
             IconButton(onClose) {

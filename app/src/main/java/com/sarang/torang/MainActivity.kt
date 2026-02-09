@@ -14,11 +14,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.sarang.torang.addreview.compose.SelectRestaurant
 import com.sarang.torang.repository.LoginRepository
 import com.sarang.torang.repository.test.LoginRepositoryTest
 import com.sryang.torang.ui.TorangTheme
@@ -44,6 +46,9 @@ class MainActivity : ComponentActivity() {
                             composable("AddReview") {
                                 AddReview(rememberNavController())
                             }
+                            composable("SelectRestaurant"){
+                                SelectRestaurant()
+                            }
                             composable("ModReview") {
                                 ModReview(rememberNavController())
                             }
@@ -57,11 +62,15 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @Preview
     @Composable
-    fun Menu(navController : NavHostController){
+    fun Menu(navController : NavHostController = rememberNavController()){
         Column {
             Button({navController.navigate("AddReview")}) {
                 Text("AddReview")
+            }
+            Button({navController.navigate("SelectRestaurant")}) {
+                Text("SelectRestaurant")
             }
             Button({navController.navigate("LoginRepositoryTest")}) {
                 Text("LoginRepositoryTest")
