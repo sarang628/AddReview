@@ -11,6 +11,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -37,8 +38,9 @@ fun ModReviewScreen(
     onClose: () -> Unit,                                                    // 닫기 클릭
     onNotSelected: () -> Unit,                                              // 식당 선택하지 않음
 ) {
-    val uiState: AddReviewUiState by addReviewViewModel.uiState.collectAsState()
+    val uiState: AddReviewUiState = addReviewViewModel.uiState
     val isLogin by addReviewViewModel.isLogin.collectAsState(false)
+    val context = LocalContext.current
 
     LaunchedEffect(key1 = reviewId, block = {
         addReviewViewModel.load(reviewId)
@@ -82,7 +84,7 @@ fun ModReviewScreen(
                     isModify = true,
                     uiState = uiState,
                     onShare = {
-                        addReviewViewModel.onModify(onShared = onShared)
+                        addReviewViewModel.onModify(onShared = onShared, context = context)
                     },
                     onBack = {
                         addReviewViewModel.deleteRestaurantAndContents()

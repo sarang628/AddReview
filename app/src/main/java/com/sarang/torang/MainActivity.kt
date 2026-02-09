@@ -21,6 +21,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sarang.torang.addreview.compose.SelectRestaurant
+import com.sarang.torang.addreview.compose.WriteReview
+import com.sarang.torang.di.addreview_di.provideAddReviewScreen
 import com.sarang.torang.repository.LoginRepository
 import com.sarang.torang.repository.test.LoginRepositoryTest
 import com.sryang.torang.ui.TorangTheme
@@ -34,46 +36,42 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val navController = rememberNavController()
+
             TorangTheme {
-                Surface(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
-                    val navController = rememberNavController()
-                    Box(modifier = Modifier.height(830.dp))
-                    {
-                        NavHost(navController = navController, startDestination = "Menu"){
-                            composable("Menu") {
-                                Menu(navController)
+                val navHost = @Composable {
+                    NavHost(navController = navController, startDestination = "Menu") {
+                        menu(navController)
+                        composable("AddReview") {
+                            provideAddReviewScreen(
+                                RootNavController(navController)
+                            ).invoke {
+                                navController.popBackStack()
                             }
-                            composable("AddReview") {
-                                AddReview(rememberNavController())
-                            }
-                            composable("SelectRestaurant"){
-                                SelectRestaurant()
-                            }
-                            composable("ModReview") {
-                                ModReview(rememberNavController())
-                            }
-                            composable("LoginRepositoryTest") {
-                                LoginRepositoryTest(loginRepository = loginRepository)
-                            }
+                        }
+                        composable("WriteReview") {
+                            WriteReview(onBack = {navController.popBackStack()})
+                        }
+                        composable("SelectRestaurant") {
+                            SelectRestaurant(onClose = {navController.popBackStack()})
+                        }
+                        composable("ModReview") {
+                            ModReview(rememberNavController())
+                        }
+                        composable("LoginRepositoryTest") {
+                            LoginRepositoryTest(loginRepository = loginRepository)
                         }
                     }
                 }
-            }
-        }
-    }
 
-    @Preview
-    @Composable
-    fun Menu(navController : NavHostController = rememberNavController()){
-        Column {
-            Button({navController.navigate("AddReview")}) {
-                Text("AddReview")
-            }
-            Button({navController.navigate("SelectRestaurant")}) {
-                Text("SelectRestaurant")
-            }
-            Button({navController.navigate("LoginRepositoryTest")}) {
-                Text("LoginRepositoryTest")
+                Surface(Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background)) {
+                    Box(modifier = Modifier.height(830.dp))
+                    {
+                        navHost()
+                    }
+                }
             }
         }
     }

@@ -42,9 +42,7 @@ fun WriteReview(
                                   onShare = onShare,
                                   onBack = onBack,
                                   isShareAble = isShareAble,
-                                  sendTitle = if (isModify) "update" else "share")
-        }
-    ) {
+                                  sendTitle = if (isModify) "update" else "share") }) {
         Column(Modifier.padding(it)) {
             SelectedPicture(
                 modifier = Modifier.padding(horizontal = 8.dp),
@@ -55,7 +53,6 @@ fun WriteReview(
             Spacer(modifier = Modifier.height(5.dp))
 
             HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
-            // select restaurant
             SelectRestaurantLabel(
                 modifier = Modifier.padding(start = 10.dp),
                 selectedRestaurantName = uiState.selectedRestaurant?.restaurantName ?: "",
@@ -64,15 +61,13 @@ fun WriteReview(
             HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
             Box(modifier = Modifier.height(50.dp)) {
                 AndroidViewRatingBar(
-                    modifier = Modifier
-                        .padding(start = 16.dp)
-                        .align(Alignment.CenterStart),
+                    modifier = Modifier.padding(start = 16.dp)
+                                       .align(Alignment.CenterStart),
                     rating = uiState.rating,
                     onChangeRating = onChangeRating
                 )
             }
             HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
-            // Write a caption
             WriteCaption(input = uiState.contents, onValueChange = onTextChange)
             HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
             Text(text = uiState.errorMsg ?: "")
@@ -131,7 +126,7 @@ internal fun AndroidViewRatingBar(
 @Preview
 @Composable
 fun PreviewWriteReview() {
-    WriteReview(
+    WriteReview(//Preview
         uiState = AddReviewUiState(list = ArrayList<Picture>().apply {
             add(Picture(url = "1"))
         }),

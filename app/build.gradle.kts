@@ -137,6 +137,9 @@ dependencies {
     implementation(libs.theme)
     implementation(libs.accompanist.permissions)
     implementation(libs.composePermissionTest)
+    implementation(libs.shortForm)
+    implementation(libs.commonImageLoader)
+    implementation(libs.coil)
 
     implementation(project(":library"))
 }

@@ -14,8 +14,6 @@ fun AddReview(navController: NavHostController) {
         onShared = {},
         onNext = { navController.navigate("addReview") },
         onClose = { navController.popBackStack() },
-        onNotSelected = {},
-        onBack = {},
-        onLogin = {}
+        onNotSelected = {}
     )
 }

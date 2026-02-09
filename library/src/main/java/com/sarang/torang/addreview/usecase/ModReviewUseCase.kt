@@ -1,5 +1,6 @@
 package com.sarang.torang.addreview.usecase
 
+import android.content.Context
 import com.sarang.torang.addreview.uistate.Picture
 
 interface ModReviewUseCase {
@@ -9,6 +10,7 @@ interface ModReviewUseCase {
         restaurantId: Int,
         rating: Float,
         files: List<Picture>? = null,
-        uploadedImage: List<Int>? = null
+        uploadedImage: List<Int>? = null,
+        context: Context
     )
 }

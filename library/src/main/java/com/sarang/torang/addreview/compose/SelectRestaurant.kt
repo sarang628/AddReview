@@ -17,11 +17,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -45,7 +46,7 @@ import com.sarang.torang.addreview.data.testSelectRestaurantData
 import com.sarang.torang.addreview.uistate.SelectRestaurantUiState
 import com.sarang.torang.addreview.usecase.SelectRestaurantUseCase
 import com.sarang.torang.addreview.viewmodels.SelectRestaurantViewModel
-import kotlin.text.get
+import java.time.format.TextStyle
 
 /**
  * @param viewModel 음식점 선택 뷰모델
@@ -91,11 +92,15 @@ fun RestaurantItem(onRestaurant     : () -> Unit    = {},
                                          .clickable { onRestaurant() },
            verticalArrangement = Arrangement.Center
     ) {
-        Text(text       = restaurantName,
+        Text(
+            modifier = Modifier.padding(horizontal = 8.dp),
+            text      = restaurantName,
             maxLines   = 1,
             fontSize   = 18.sp,
             overflow   = TextOverflow.Ellipsis)
-        Text(text       = address,
+        Text(
+            modifier = Modifier.padding(horizontal = 8.dp),
+            text       = address,
             fontSize   = 14.sp,
             color      = Color.Gray,
             overflow   = TextOverflow.Ellipsis,
@@ -143,6 +148,10 @@ fun SearchBar(
             onValueChange = {
                 onValueChange(it)
             },
+            textStyle = androidx.compose.ui.text.TextStyle(
+                color = MaterialTheme.colorScheme.onBackground,
+                fontSize = 16.sp
+            ),
             decorationBox = { innerTextField ->
                 Row(
                     Modifier
@@ -150,9 +159,9 @@ fun SearchBar(
                         .height(40.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_search),
-                        contentDescription = "",
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = null,
                         Modifier.size(20.dp)
                     )
                     Spacer(Modifier.width(16.dp))
@@ -161,7 +170,7 @@ fun SearchBar(
                         if (keyword.isEmpty())
                             Text(
                                 text = "Write a restaurant",
-                                color = Color.Gray,
+                                color = MaterialTheme.colorScheme.onBackground,
                                 fontSize = 14.sp
                             )
                     }
